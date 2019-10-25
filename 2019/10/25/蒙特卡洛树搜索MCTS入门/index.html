@@ -21,16 +21,16 @@
     
     
     <meta name="keywords" content="">
-    <meta name="description" content="蒙特卡洛树搜索MCTS入门【内容简介】蒙特卡洛树搜索( Monte Carlo Tree Search )是AlphaGo中一种寻找最优决策的方法，其主要分为四步：选择(Selection)，拓展(Expansion)，模拟(Simulation)，反向传播(Backpropagation)。 下面我们以井字棋为例对这一方法进行介绍。 基础知识节点在棋类问题中，MCTS使用一个节点来表示一个">
+    <meta name="description" content="蒙特卡洛树搜索的简单介绍">
 <meta property="og:type" content="article">
 <meta property="og:title" content="蒙特卡洛树搜索MCTS入门">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;10&#x2F;25&#x2F;%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8&#x2F;index.html">
 <meta property="og:site_name">
-<meta property="og:description" content="蒙特卡洛树搜索MCTS入门【内容简介】蒙特卡洛树搜索( Monte Carlo Tree Search )是AlphaGo中一种寻找最优决策的方法，其主要分为四步：选择(Selection)，拓展(Expansion)，模拟(Simulation)，反向传播(Backpropagation)。 下面我们以井字棋为例对这一方法进行介绍。 基础知识节点在棋类问题中，MCTS使用一个节点来表示一个">
+<meta property="og:description" content="蒙特卡洛树搜索的简单介绍">
 <meta property="og:locale" content="zn-CN">
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;10&#x2F;25&#x2F;%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8&#x2F;节点.png">
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;10&#x2F;25&#x2F;%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8&#x2F;搜索过程.gif">
-<meta property="og:updated_time" content="2019-10-25T08:49:45.801Z">
+<meta property="og:updated_time" content="2019-10-25T09:01:07.811Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;10&#x2F;25&#x2F;%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8&#x2F;节点.png">
     
@@ -98,7 +98,7 @@
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
                 <i class="icon icon-lg icon-chevron-left"></i>
             </a>
-            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="搜尋">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
                 <i class="icon icon-lg icon-search"></i>
             </a>
@@ -161,7 +161,8 @@
 
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
-             <a id="more"></a>
+            <p> 蒙特卡洛树搜索的简单介绍</p>
+<a id="more"></a>
 
 <h1 id="蒙特卡洛树搜索MCTS入门"><a href="#蒙特卡洛树搜索MCTS入门" class="headerlink" title="蒙特卡洛树搜索MCTS入门"></a>蒙特卡洛树搜索MCTS入门</h1><p>【内容简介】<strong>蒙特卡洛树搜索</strong>( Monte Carlo Tree Search )是AlphaGo中一种寻找最优决策的方法，其主要分为四步：<strong>选择</strong>(Selection)，<strong>拓展</strong>(Expansion)，<strong>模拟</strong>(Simulation)，<strong>反向传播</strong>(Backpropagation)。 下面我们以<strong>井字棋</strong>为例对这一方法进行介绍。</p>
 <h2 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h2><h3 id="节点"><a href="#节点" class="headerlink" title="节点"></a>节点</h3><p>在棋类问题中，MCTS使用一个<strong>节点</strong>来表示一个<strong>游戏状态</strong>。若现在井字棋的盘上只有中间一个棋子，我们用一个节点表示这个游戏状态。那么，下一步棋有<strong>8种下法</strong>，所以对应的，刚才那个节点就有<strong>8个子节点</strong>(图中只画出了3个)，如下图所示。根据这个方法，这些子节点又有子节点，所有的井字棋游戏状态都可以被这样表示，于是它们就构成了一个树。蒙特卡洛树搜索就是要在这样一个树中搜索最可能获胜的游戏状态，即搜索最佳<strong>下棋策略</strong>。</p>
@@ -211,7 +212,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2019-10-25T08:49:45.801Z" itemprop="dateUpdated">2019-10-25 16:49:45</time>
+    最後更新時間：<time datetime="2019-10-25T09:01:07.811Z" itemprop="dateUpdated">2019-10-25 17:01:07</time>
 </span><br>
 
 
@@ -253,7 +254,7 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/10/25/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8/&title=《蒙特卡洛树搜索MCTS入门》 — null&source=" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/10/25/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8/&title=《蒙特卡洛树搜索MCTS入门》 — null&source= 蒙特卡洛树搜索的简单介绍" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
@@ -397,7 +398,7 @@
             
                 <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
             
-            <span>This blog is licensed under a <a rel="license noopener" href="https://creativecommons.org/licenses/by/4.0/" target="_blank">Creative Commons Attribution 4.0 International License</a>.</span>
+            <span>本部落格係採用<a rel="license noopener" href="https://creativecommons.org/licenses/by/4.0/deed.zh_TW" target="_blank">創用 CC 姓名標示 4.0 國際 授權條款授權</a></span>
         </p>
     </div>
     <div class="bottom">
@@ -429,7 +430,7 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/10/25/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8/&title=《蒙特卡洛树搜索MCTS入门》 — null&source=" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/10/25/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8/&title=《蒙特卡洛树搜索MCTS入门》 — null&source= 蒙特卡洛树搜索的简单介绍" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
