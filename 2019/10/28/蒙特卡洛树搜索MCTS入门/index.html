@@ -21,7 +21,7 @@
     
     
     
-    <title>蒙特卡洛树搜索MCTS入门 | </title>
+    <title>蒙特卡洛树搜索MCTS入门 | Yu Hanqing&#39;s Blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <meta name="theme-color" content="#3F51B5">
@@ -31,17 +31,17 @@
     <meta name="description" content="蒙特卡洛树搜索的简单介绍">
 <meta property="og:type" content="article">
 <meta property="og:title" content="蒙特卡洛树搜索MCTS入门">
-<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;10&#x2F;25&#x2F;%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8&#x2F;index.html">
-<meta property="og:site_name">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;10&#x2F;28&#x2F;%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8&#x2F;index.html">
+<meta property="og:site_name" content="Yu Hanqing&#39;s Blog">
 <meta property="og:description" content="蒙特卡洛树搜索的简单介绍">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;10&#x2F;25&#x2F;%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8&#x2F;节点.png">
-<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;10&#x2F;25&#x2F;%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8&#x2F;搜索过程.gif">
-<meta property="og:updated_time" content="2019-10-25T14:01:24.861Z">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;10&#x2F;28&#x2F;%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8&#x2F;节点.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;10&#x2F;28&#x2F;%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8&#x2F;搜索过程.gif">
+<meta property="og:updated_time" content="2019-10-28T07:46:20.719Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;10&#x2F;25&#x2F;%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8&#x2F;节点.png">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;10&#x2F;28&#x2F;%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8&#x2F;节点.png">
     
-        <link rel="alternate" type="application/atom+xml" title="" href="/atom.xml">
+        <link rel="alternate" type="application/atom+xml" title="Yu Hanqing&#39;s Blog" href="/atom.xml">
     
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="stylesheet" href="/css/style.css?v=1.7.2">
@@ -78,6 +78,13 @@
               <a href="/"  >
                 <i class="icon icon-lg icon-home"></i>
                 主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
               </a>
             </li>
         
@@ -124,10 +131,12 @@
         <h1 class="title">蒙特卡洛树搜索MCTS入门</h1>
         <h5 class="subtitle">
             
-                <time datetime="2019-10-25T01:14:03.775Z" itemprop="datePublished" class="page-time">
-  2019-10-25
+                <time datetime="2019-10-28T07:46:02.000Z" itemprop="datePublished" class="page-time">
+  2019-10-28
 </time>
 
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a></li></ul>
 
             
         </h5>
@@ -155,9 +164,11 @@
     <div class="post-card">
         <h1 class="post-card-title">蒙特卡洛树搜索MCTS入门</h1>
         <div class="post-meta">
-            <time class="post-time" title="2019-10-25 09:14:03" datetime="2019-10-25T01:14:03.775Z"  itemprop="datePublished">2019-10-25</time>
+            <time class="post-time" title="2019-10-28 15:46:02" datetime="2019-10-28T07:46:02.000Z"  itemprop="datePublished">2019-10-28</time>
 
             
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a></li></ul>
+
 
 
             
@@ -168,13 +179,13 @@
 
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
-            <p> 蒙特卡洛树搜索的简单介绍</p>
+            <p>蒙特卡洛树搜索的简单介绍</p>
 <a id="more"></a>
 
 <h1 id="蒙特卡洛树搜索MCTS入门"><a href="#蒙特卡洛树搜索MCTS入门" class="headerlink" title="蒙特卡洛树搜索MCTS入门"></a>蒙特卡洛树搜索MCTS入门</h1><p>【内容简介】<strong>蒙特卡洛树搜索</strong>( Monte Carlo Tree Search )是一种寻找最优决策的方法，在AlphaGo中被运用，其主要分为四步：<strong>选择</strong>(Selection)，<strong>拓展</strong>(Expansion)，<strong>模拟</strong>(Simulation)，<strong>反向传播</strong>(Backpropagation)。 下面我们以<strong>井字棋</strong>为例对这一方法进行介绍。</p>
 <h2 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h2><h3 id="节点"><a href="#节点" class="headerlink" title="节点"></a>节点</h3><p>在棋类问题中，MCTS使用一个<strong>节点</strong>来表示一个<strong>游戏状态</strong>。若现在井字棋的棋盘上只有中间一个棋子，我们用一个节点表示这个游戏状态。那么，下一步棋有<strong>8种下法</strong>，所以对应的，刚才那个节点就有<strong>8个子节点</strong>(图中只画出了3个)，如下图所示。根据这个方法，这些子节点又有子节点，所有的井字棋游戏状态都可以被这样表示，于是它们就构成了一个树。蒙特卡洛树搜索就是要在这样一个树中搜索最可能获胜的游戏状态，即搜索最佳<strong>下棋策略</strong>。</p>
   <div align="center">  
-<img src="/2019/10/25/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8/节点.png" alt="节点" width="250">
+<img src="/2019/10/28/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8/节点.png" alt="节点" width="250">
 
 </div>
 
@@ -197,7 +208,7 @@
 <h3 id="搜索过程展示"><a href="#搜索过程展示" class="headerlink" title="搜索过程展示"></a>搜索过程展示</h3><p>看完了这四个步骤，我们再来看一张动图帮助理解。图中节点内数字表示$Q(v)/N(v)$</p>
  <div align="center">  
 
-<img src="/2019/10/25/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8/搜索过程.gif" alt="搜索过程" width="400">
+<img src="/2019/10/28/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8/搜索过程.gif" alt="搜索过程" width="400">
 
 </div>
 
@@ -219,7 +230,7 @@
     <div class="content">
         
 <span class="post-time">
-    最后更新时间：<time datetime="2019-10-25T14:01:24.861Z" itemprop="dateUpdated">2019-10-25 22:01:24</time>
+    最后更新时间：<time datetime="2019-10-28T07:46:20.719Z" itemprop="dateUpdated">2019-10-28 15:46:20</time>
 </span><br>
 
 
@@ -253,7 +264,7 @@
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/10/25/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8/&title=《蒙特卡洛树搜索MCTS入门》 — null&pic=http://yoursite.com/img/avatar.png" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/10/28/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8/&title=《蒙特卡洛树搜索MCTS入门》 — Yu Hanqing's Blog&pic=http://yoursite.com/img/avatar.png" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -263,22 +274,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/10/25/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8/&title=《蒙特卡洛树搜索MCTS入门》 — null&source= 蒙特卡洛树搜索的简单介绍" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/10/28/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8/&title=《蒙特卡洛树搜索MCTS入门》 — Yu Hanqing's Blog&source=蒙特卡洛树搜索的简单介绍" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/10/25/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/10/28/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《蒙特卡洛树搜索MCTS入门》 — null&url=http://yoursite.com/2019/10/25/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8/&via=http://yoursite.com" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《蒙特卡洛树搜索MCTS入门》 — Yu Hanqing's Blog&url=http://yoursite.com/2019/10/28/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8/&via=http://yoursite.com" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/10/25/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/10/28/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -298,19 +309,6 @@
     </div>
 
     
-<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
-  
-
-  
-    <div class="waves-block waves-effect next">
-      <a href="/2019/10/24/hello-world/" id="post-next" class="post-nav-link">
-        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
-        <h4 class="title">Hello World</h4>
-      </a>
-    </div>
-  
-</nav>
-
 
 
     
@@ -429,7 +427,7 @@
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/10/25/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8/&title=《蒙特卡洛树搜索MCTS入门》 — null&pic=http://yoursite.com/img/avatar.png" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/10/28/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8/&title=《蒙特卡洛树搜索MCTS入门》 — Yu Hanqing's Blog&pic=http://yoursite.com/img/avatar.png" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -439,22 +437,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/10/25/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8/&title=《蒙特卡洛树搜索MCTS入门》 — null&source= 蒙特卡洛树搜索的简单介绍" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/10/28/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8/&title=《蒙特卡洛树搜索MCTS入门》 — Yu Hanqing's Blog&source=蒙特卡洛树搜索的简单介绍" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/10/25/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/10/28/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《蒙特卡洛树搜索MCTS入门》 — null&url=http://yoursite.com/2019/10/25/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8/&via=http://yoursite.com" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《蒙特卡洛树搜索MCTS入门》 — Yu Hanqing's Blog&url=http://yoursite.com/2019/10/28/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8/&via=http://yoursite.com" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/10/25/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/10/28/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -465,7 +463,7 @@
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQ4AAAEOCAAAAABd2qZ5AAAD7ElEQVR42u3awW7bQAwEUP//T7tAL22B2BpyVk6APp0CxZa0TwGYJefxiI/n7yP5+e8z+XWSM8mV889XBw4cOHDgCJb66nj1mfcLmF7tFWXO9/7F5HfEgQMHDhynOPqimJS95F7JU71/MXnRxYEDBw4c38vxvhwmv22KaHJMt384cODAgePncCTtwrxpmDQTm6XiwIEDB47Pc+QLPos4HVbtSu8tvVIcOHDgwLGvd4NAw8/8+dvyHThw4MDxn3E8iyO/cl4s87J9x7pw4MCBA0fP0Y+XpsVsR5lHHJLQw0UxxoEDBw4cBcd0YJMUxemGKn/oPB43jTvgwIEDB45THP3WqAkuJEBTgunrvJjC4cCBAweOIUdTkJo4QnKd5J+ApO042KziwIEDB45DHPlWbbd525XY6bd2uP/8FgcOHDhw1Bx5i21642YctRsjHYtl4MCBAweOQxz54pMBVVNWdy3IHHEwdsKBAwcOHCuOvMU2nmgNN1r9Rm4XcYiyHjhw4MCBI+DIi1y+gGYENd3mJYOowSYTBw4cOHDUHLsQwDSmMN0fTZuDu8blxSvEgQMHDhwFx3TPtyvP+eKbduT0dV78XeDAgQMHjhs4drdvYgdNazLfqr1cFw4cOHDgOMSxa9JNowzJvZrNZL8WHDhw4MBxH0cyTNq156YbvzuGYYNZHA4cOHDgiDmaYjZdQNPm223VxgUYBw4cOHDUHE1sblfMTpXPZOO3uw4OHDhw4DjFsTuaZt/0W+MBUnDl3bPhwIEDB46EIx8d5VGGfGF9ECH5Vv55HDhw4MCx42iCCP17mMbpcr5d0xMHDhw4cJzl2AUC8mbitBU4zWVMv/vF2nHgwIEDR80x3SDlzb7dhuqOzeS0hOPAgQMHjlMcuwKZj3Oeq2OKdSrugAMHDhw47uOYDpaadl5OkJT5KpCBAwcOHDhWHLvClkcWpp9sYg35mYteKQ4cOHDgqDmaUpoPpfKCN2077uIXXzw5Dhw4cOCoOcZhstWj73Jop4IUu8AfDhw4cODYcfTDnl30IVnwjmNK9pjOzXDgwIEDR7xPSbB2rcB8OLQLLpxqIOLAgQMHjp5jupikXO1KdYI4bTgu74UDBw4cOAqO5/DYDaumhTy/Zr8VxIEDBw4cZzmq+rwKJfRlOEdpro8DBw4cOJrr58W1KU67+PWpwPegEYkDBw4cOA5x9MXsjtbeNFSR/0NwMXbCgQMHDhwf5EiW2ocV8qD2qReGAwcOHDg+zzF9uGmJbQZReYTuYu04cODAgeMQR17G3p/Zge7q3XSglawUBw4cOHD0HE2AoIkU3A2RbCkPROVw4MCBA8ef878ArBE5I4Zpb4UAAAAASUVORK5CYII=" alt="微信分享二维码">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQ4AAAEOCAAAAABd2qZ5AAAD40lEQVR42u3awY4aQQwE0P3/nyZSTomUhSrb7K6UNyeEYKb7cTDl9sdHfD1+X8nrP9/J75O8k9w5//zqwoEDBw4cwVY/u/JlfUaT8G3eT36YZI84cODAgeOWY18UkwcnxTivgC3H8z3iwIEDB46v58gX9DzUzZja6IgDBw4cOH4+R7LtFjH/GZLP48CBAweOn8ORNAeTUtoWy5apvd7YK8WBAwcOHPO+XDHQ8DNff9t8Bw4cOHD8ZxyPxTUrn/uBhjbaFTvCgQMHDhxrjvzW+WFSvqW22ddueBYyceDAgQPHhmO2uLwE5oc9s2/thx7++iQOHDhw4FhzzAhmA22zJeZjdvlqh01DHDhw4MBR1pHbI/9ZeNvDteNxL5qDOHDgwIGj5Ngc6mw23xbX2fbq9eDAgQMHjjdw5EU3aRG2sSpnmrUjX+wCBw4cOHCsOZJttI2//HAoH4lrv9UeQeHAgQMHjiuOtizlpzOzINceFOXlfDUqhwMHDhw4So5NDMvLW4uyD3htKMWBAwcOHFccbeFMDqiu2ogbynywr+6V4sCBAweOp89qw1jbdNsU7LaQb1qEOHDgwIFjz3EVn/LXm0bebGShKNU4cODAgWPN0UamWTzbtwuvNl+UWxw4cODAMVp/HqLyGJYcAuWFdjbWMBvLwIEDBw4ctxybSJYf/1xFtZYpuhsOHDhw4DjlyAvtJjjNCvD+iVGMxIEDBw4ca47N9vJiecs3K6jFOAUOHDhw4FhztBubHT7ljbzZIMIjvoqxBhw4cODAUXI8f3yy4asxiNuYNxuww4EDBw4ce45NCy+56dWwQnLn9rvHHU0cOHDgwFEOH9wOELStw32ALP4i4MCBAweOBccsLLXbuy3bm9bhCywcOHDgwLHmaONWWz43rcbZSvZwOHDgwIHjimOWZRKaWTsyL5l52c53gQMHDhw4ZhzJiEDe+MsD2OYO7fhCPgyBAwcOHDhuOdpGW97Cuz1Sascvij8EOHDgwIHjiCMPabNBgTZ05cdgyQ+WHDsNwy8OHDhw4HjaDWsXlAezPJK19JuhChw4cODA8Q6OdjQtj0ZtQzAfm/g4vXDgwIEDxy3Ho7zy8txGvlnx3hTyf9wNBw4cOHCsOVb1OW78zaJU22TMRyjagzEcOHDgwNE+a9ZcayE2fJswmQdOHDhw4MBxyzELY/lCkyg1I2v/Qbwo0jhw4MCB48s5knKbH2hdDcPNmpWrtIoDBw4cONYceXsuP/LJQ9estA/nO3DgwIEDx5oj314e1ZKlb2Le7ODqxf1x4MCBA8eaox1oSPjaRuEVSg43+yuAAwcOHDierv8XiUE0NvmsezkAAAAASUVORK5CYII=" alt="微信分享二维码">
 </div>
 
 
