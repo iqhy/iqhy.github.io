@@ -1,189 +1,265 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-    
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon_32px.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon_16px.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-    
-<!-- Tencent Speed -->
-<script>var _speedMark = new Date()</script>
-<!-- End Tencent Speed -->
-<!-- Tencent Analysis -->
-<script async src="//tajs.qq.com/stats?sId=66480992"></script>
-<!-- End Tencent Analysis -->
-
-
-    
+<link rel="stylesheet" href="/css/main.css">
 
 
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
 
-    <meta charset="utf-8">
-    
-    
-    
-    
-    <title>蒙特卡洛树搜索MCTS入门 | Yu Hanqing&#39;s Blog</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    
-    <meta name="theme-color" content="#3F51B5">
-    
-    
-    <meta name="keywords" content="">
-    <meta name="description" content="蒙特卡洛树搜索的简单介绍">
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.7.1',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="【内容简介】蒙特卡洛树搜索(Monte Carlo Tree Search) 是一种寻找最优决策的方法，在AlphaGo中被运用，其主要分为四步：选择(Selection)，拓展(Expansion)，模拟(Simulation)，反向传播(Backpropagation)。 本文以井字棋为例对这一方法进行介绍。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="蒙特卡洛树搜索MCTS入门">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;10&#x2F;28&#x2F;%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8&#x2F;index.html">
 <meta property="og:site_name" content="Yu Hanqing&#39;s Blog">
-<meta property="og:description" content="蒙特卡洛树搜索的简单介绍">
+<meta property="og:description" content="【内容简介】蒙特卡洛树搜索(Monte Carlo Tree Search) 是一种寻找最优决策的方法，在AlphaGo中被运用，其主要分为四步：选择(Selection)，拓展(Expansion)，模拟(Simulation)，反向传播(Backpropagation)。 本文以井字棋为例对这一方法进行介绍。">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;10&#x2F;28&#x2F;%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8&#x2F;节点.png">
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;10&#x2F;28&#x2F;%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8&#x2F;搜索过程.gif">
-<meta property="og:updated_time" content="2019-10-28T13:38:24.674Z">
+<meta property="og:updated_time" content="2020-02-28T05:04:56.625Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;10&#x2F;28&#x2F;%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8&#x2F;节点.png">
-    
-        <link rel="alternate" type="application/atom+xml" title="Yu Hanqing&#39;s Blog" href="/atom.xml">
-    
-    <link rel="shortcut icon" href="/favicon.ico">
-    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
-    <script>window.lazyScripts=[]</script>
 
-    <!-- custom head -->
-    
+<link rel="canonical" href="http://yoursite.com/2019/10/28/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>蒙特卡洛树搜索MCTS入门 | Yu Hanqing's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
 
 </head>
 
-<body>
-    <div id="loading" class="active"></div>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
 
-    <aside id="menu" class="hide" >
-  <div class="inner flex-row-vertical">
-    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
-        <i class="icon icon-lg icon-close"></i>
-    </a>
-    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
-      <div class="brand">
-        <a href="/" class="avatar waves-effect waves-circle waves-light">
-          <img src="/img/avatar.png">
-        </a>
-        <hgroup class="introduce">
-          <h5 class="nickname">Yu Hanqing</h5>
-          <a href="mailto:imyuhanqing@outlook.com" target="_blank" rel="noopener" title="imyuhanqing@outlook.com" class="mail">imyuhanqing@outlook.com</a>
-        </hgroup>
-      </div>
-    </div>
-    <div class="scroll-wrap flex-col">
-      <ul class="nav">
-        
-            <li class="waves-block waves-effect">
-              <a href="/"  >
-                <i class="icon icon-lg icon-home"></i>
-                主页
-              </a>
-            </li>
-        
-            <li class="waves-block waves-effect">
-              <a href="/categories"  >
-                <i class="icon icon-lg icon-th-list"></i>
-                分类
-              </a>
-            </li>
-        
-            <li class="waves-block waves-effect">
-              <a href="https://github.com/iqhy" target="_blank" >
-                <i class="icon icon-lg icon-github"></i>
-                Github
-              </a>
-            </li>
-        
-      </ul>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Yu Hanqing's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
     </div>
   </div>
-</aside>
 
-    <main id="main">
-        <header class="top-header" id="header">
-    <div class="flex-row">
-        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
-          <i class="icon icon-lg icon-navicon"></i>
-        </a>
-        <div class="flex-col header-title ellipsis">蒙特卡洛树搜索MCTS入门</div>
-        
-        <div class="search-wrap" id="search-wrap">
-            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
-                <i class="icon icon-lg icon-chevron-left"></i>
-            </a>
-            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
-            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
-                <i class="icon icon-lg icon-search"></i>
-            </a>
-        </div>
-        
-        
-        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
-            <i class="icon icon-lg icon-share-alt"></i>
-        </a>
-        
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
-</header>
-<header class="content-header post-header">
-
-    <div class="container fade-scale">
-        <h1 class="title">蒙特卡洛树搜索MCTS入门</h1>
-        <h5 class="subtitle">
-            
-                <time datetime="2019-10-28T07:46:02.000Z" itemprop="datePublished" class="page-time">
-  2019-10-28
-</time>
+  </div>
+</div>
 
 
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a></li></ul>
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
 
-            
-        </h5>
-    </div>
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
 
     
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
 
 
-</header>
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
 
+          <div class="content">
+            
 
-<div class="container body-wrap">
-    
-    <aside class="post-widget">
-        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
-            <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#蒙特卡洛树搜索MCTS入门"><span class="post-toc-number">1.</span> <span class="post-toc-text">蒙特卡洛树搜索MCTS入门</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#基础知识"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">基础知识</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#节点"><span class="post-toc-number">1.1.1.</span> <span class="post-toc-text">节点</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#节点的两个属性"><span class="post-toc-number">1.1.2.</span> <span class="post-toc-text">节点的两个属性</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#搜索过程"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">搜索过程</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#选择-Selection"><span class="post-toc-number">1.2.1.</span> <span class="post-toc-text">选择(Selection)</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#扩展-Expansion"><span class="post-toc-number">1.2.2.</span> <span class="post-toc-text">扩展(Expansion)</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#模拟-Simulation"><span class="post-toc-number">1.2.3.</span> <span class="post-toc-text">模拟(Simulation)</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#反向传播-Backpropagation"><span class="post-toc-number">1.2.4.</span> <span class="post-toc-text">反向传播(Backpropagation)</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#搜索过程展示"><span class="post-toc-number">1.2.5.</span> <span class="post-toc-text">搜索过程展示</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#搜索结束"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">搜索结束</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#选择最佳节点"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">选择最佳节点</span></a></li></ol></li></ol>
-        </nav>
-    </aside>
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/28/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8/">
 
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Yu Hanqing">
+      <meta itemprop="description" content="">
+    </span>
 
-<article id="post-蒙特卡洛树搜索MCTS入门"
-  class="post-article article-type-post fade" itemprop="blogPost">
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yu Hanqing's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          蒙特卡洛树搜索MCTS入门
+        </h1>
 
-    <div class="post-card">
-        <h1 class="post-card-title">蒙特卡洛树搜索MCTS入门</h1>
         <div class="post-meta">
-            <time class="post-time" title="2019-10-28 15:46:02" datetime="2019-10-28T07:46:02.000Z"  itemprop="datePublished">2019-10-28</time>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
 
-            
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a></li></ul>
+              <time title="创建时间：2019-10-28 15:46:02" itemprop="dateCreated datePublished" datetime="2019-10-28T15:46:02+08:00">2019-10-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-28 13:04:56" itemprop="dateModified" datetime="2020-02-28T13:04:56+08:00">2020-02-28</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+            </span>
 
-
-
-            
-<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
-    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
-</span>
-
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>6 分钟</span>
+            </span>
 
         </div>
-        <div class="post-content" id="post-content" itemprop="postContent">
-            <p>蒙特卡洛树搜索的简单介绍</p>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>【内容简介】<strong>蒙特卡洛树搜索</strong>(Monte Carlo Tree Search) 是一种寻找最优决策的方法，在AlphaGo中被运用，其主要分为四步：<strong>选择</strong>(Selection)，<strong>拓展</strong>(Expansion)，<strong>模拟</strong>(Simulation)，<strong>反向传播</strong>(Backpropagation)。 本文以<strong>井字棋</strong>为例对这一方法进行介绍。</p>
 <a id="more"></a>
 
-<h1 id="蒙特卡洛树搜索MCTS入门"><a href="#蒙特卡洛树搜索MCTS入门" class="headerlink" title="蒙特卡洛树搜索MCTS入门"></a>蒙特卡洛树搜索MCTS入门</h1><p>【内容简介】<strong>蒙特卡洛树搜索</strong>( Monte Carlo Tree Search )是一种寻找最优决策的方法，在AlphaGo中被运用，其主要分为四步：<strong>选择</strong>(Selection)，<strong>拓展</strong>(Expansion)，<strong>模拟</strong>(Simulation)，<strong>反向传播</strong>(Backpropagation)。 下面我们以<strong>井字棋</strong>为例对这一方法进行介绍。</p>
-<h2 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h2><h3 id="节点"><a href="#节点" class="headerlink" title="节点"></a>节点</h3><p>在棋类问题中，MCTS使用一个<strong>节点</strong>来表示一个<strong>游戏状态</strong>。若现在井字棋的棋盘上只有中间一个棋子，我们用一个节点表示这个游戏状态。那么，下一步棋有<strong>8种下法</strong>，所以对应的，刚才那个节点就有<strong>8个子节点</strong>(图中只画出了3个)，如下图所示。根据这个方法，这些子节点又有子节点，所有的井字棋游戏状态都可以被这样表示，于是它们就构成了一个树。蒙特卡洛树搜索就是要在这样一个树中搜索最可能获胜的游戏状态，即搜索最佳<strong>下棋策略</strong>。</p>
+<h2 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h2><h3 id="节点"><a href="#节点" class="headerlink" title="节点"></a>节点</h3><p>在棋类问题中，MCTS 使用一个<strong>节点</strong>来表示一个<strong>游戏状态</strong>。若现在井字棋的棋盘上只有中间一个棋子，我们用一个节点表示这个游戏状态。那么，下一步棋有<strong>8种下法</strong>，所以对应的，刚才那个节点就有<strong>8个子节点</strong>(图中只画出了3个)，如下图所示。根据这个方法，这些子节点又有子节点，所有的井字棋游戏状态都可以被这样表示，于是它们就构成了一个树。蒙特卡洛树搜索就是要在这样一个树中搜索最可能获胜的游戏状态，即搜索最佳<strong>下棋策略</strong>。</p>
   <div align="center">  
 <img src="/2019/10/28/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8/节点.png" alt="节点" width="250">
 
@@ -197,15 +273,15 @@
 <p>这两个属性会在下面的过程中用到，并会详细说明。</p>
 <h2 id="搜索过程"><a href="#搜索过程" class="headerlink" title="搜索过程"></a>搜索过程</h2><p>那么，给定当前游戏状态，如何获得下一步的最佳下法呢？对于井字棋来说，当然可以遍历所有可能性，直接找出最优策略。但若换成围棋等复杂的棋类，遍历的方法显然不可行。下面就是蒙特卡洛树搜索的核心部分。</p>
 <h3 id="选择-Selection"><a href="#选择-Selection" class="headerlink" title="选择(Selection)"></a>选择(Selection)</h3><p>选择阶段，从根节点(给定的游戏状态)出发，根据一定的<strong>策略</strong>，向下选择一个节点，若被选择的节点<strong>未被访问</strong>，则执行<strong>扩展</strong>；若被选择的节点<strong>已被访问</strong>，则继续向下选择节点，直到遇见未被访问的节点并执行<strong>扩展</strong>，或遇见终止节点(游戏结束)，无需执行<strong>扩展</strong>，而直接执行<strong>反向传播</strong>。</p>
-<p>这个选择的策略由该公式确定，对于当前节点的每个子节点计算如下公式，并选择结果最大的节点。<br>$$<br>\underset{v’\in ,,\text{children of }v}{arg\max}\frac{Q\left( v’ \right)}{N\left( v’ \right)}+c\sqrt{\frac{\text{2}\ln N\left( v \right)}{N\left( v’ \right)}}<br>$$<br>其中， $v$ 表示父节点，$v’$ 表示子节点。$c$是一常数，用于权衡<strong>探索(Exploration)</strong>与<strong>利用(Exploitation)</strong>。$c$越大，算法就越偏向于<strong>探索</strong>访问次数少的节点；$c$越小，算法就越偏向于选择获胜可能性高的节点，称为<strong>利用</strong>。</p>
-<h3 id="扩展-Expansion"><a href="#扩展-Expansion" class="headerlink" title="扩展(Expansion)"></a>扩展(Expansion)</h3><p>扩展非常简单，就是把<strong>选择</strong>步骤中遇到的未访问节点添加到现有的树中。</p>
-<h3 id="模拟-Simulation"><a href="#模拟-Simulation" class="headerlink" title="模拟(Simulation)"></a>模拟(Simulation)</h3><p>从被扩展的节点开始，让游戏<strong>随机</strong>进行，也就是在棋盘上随机下棋，直到<strong>游戏结束</strong>。若此时游戏胜利，则<strong>奖励(Reward)</strong>为$1$；若游戏失败，<strong>奖励</strong>为$0$。这个奖励会在<strong>反向传播</strong>中被用到。</p>
+<p>这个选择的策略由该公式确定，对于当前节点的每个子节点计算如下公式，并选择结果最大的节点。<br>$$<br>\underset{v’\in ,,\text{children of }v}{arg\max}\frac{Q\left( v’ \right)}{N\left( v’ \right)}+c\sqrt{\frac{\text{2}\ln N\left( v \right)}{N\left( v’ \right)}}<br>$$<br>其中， $v$ 表示父节点，$v’$ 表示子节点。$c$是一常数，用于权衡<strong>探索 (Exploration)</strong> 与<strong>利用 (Exploitation)</strong>。$c$越大，算法就越偏向于<strong>探索</strong>访问次数少的节点；$c$越小，算法就越偏向于选择获胜可能性高的节点，称为<strong>利用</strong>。</p>
+<h3 id="扩展-Expansion"><a href="#扩展-Expansion" class="headerlink" title="扩展 (Expansion)"></a>扩展 (Expansion)</h3><p>扩展非常简单，就是把<strong>选择</strong>步骤中遇到的未访问节点添加到现有的树中。</p>
+<h3 id="模拟-Simulation"><a href="#模拟-Simulation" class="headerlink" title="模拟 (Simulation)"></a>模拟 (Simulation)</h3><p>从被扩展的节点开始，让游戏<strong>随机</strong>进行，也就是在棋盘上随机下棋，直到<strong>游戏结束</strong>。若此时游戏胜利，则<strong>奖励 (Reward)</strong> 为$1$；若游戏失败，<strong>奖励</strong>为$-1$。这个奖励会在<strong>反向传播</strong>中被用到。</p>
 <p>注：在其他应用中，<strong>奖励</strong>也可是其他值。</p>
-<h3 id="反向传播-Backpropagation"><a href="#反向传播-Backpropagation" class="headerlink" title="反向传播(Backpropagation)"></a>反向传播(Backpropagation)</h3><p>反向传播其实就是对<strong>执行模拟的节点</strong>或<strong>终止节点</strong>的所有父节点的<strong>两个属性</strong>进行逐一更新的过程。</p>
+<h3 id="反向传播-Backpropagation"><a href="#反向传播-Backpropagation" class="headerlink" title="反向传播 (Backpropagation)"></a>反向传播 (Backpropagation)</h3><p>反向传播其实就是对<strong>执行模拟的节点</strong>或<strong>终止节点</strong>的所有父节点的<strong>两个属性</strong>进行逐一更新的过程。</p>
 <p>将奖励记作$R$，对所有节点$v$，包括当前节点，都执行以下操作。<br>$$<br>N(v)=N(v)+1  \\<br>Q(v)=Q(v)+R<br>$$<br>我们再回头看看<strong>选择</strong>步骤中的公式<br>$$<br>\underset{v’\in ,,\text{children of }v}{arg\max}\frac{Q\left( v’ \right)}{N\left( v’ \right)}+c\sqrt{\frac{\text{2}\ln N\left( v \right)}{N\left( v’ \right)}}<br>$$<br>可以看到，式中<strong>第一项</strong>其实就是该节点在前面的过程中获得的<strong>平均奖励</strong>，自然该值越大，选择该节点就越有可能获胜。那么为什么要加上第二项呢？这就涉及到<strong>探索</strong>与<strong>利用</strong>的权衡。</p>
 <p>我们不能只选择已访问过的节点中<strong>平均奖励</strong>最大的节点，一些<strong>访问次数较少</strong>的、甚至<strong>没有访问过</strong>的节点它们可能获得比已探索的节点更丰厚的回报，因此也要适当地在未知的节点进行探索。这就是第二项的含义，当该节点访问次数占父节点次数的比例越小时，该值越大，代表我们越要在此节点进行探索。于是就不难理解$c$用于是权衡<strong>探索</strong>与<strong>利用</strong>的常数了。</p>
-<p>这就是<strong>上限置信区间算法(Upper Confidence Bound )</strong>，简称UCT算法。</p>
-<h3 id="搜索过程展示"><a href="#搜索过程展示" class="headerlink" title="搜索过程展示"></a>搜索过程展示</h3><p>看完了这四个步骤，我们再来看一张动图帮助理解。图中节点内数字表示$Q(v)/N(v)$</p>
+<p>这就是<strong>上限置信区间算法 (Upper Confidence Bound )</strong>，简称UCT算法。</p>
+<h3 id="搜索过程展示"><a href="#搜索过程展示" class="headerlink" title="搜索过程展示"></a>搜索过程展示</h3><p>看完了这四个步骤，我们再来看一张动图帮助理解。图中节点内数字表示 $Q(v)/N(v)$</p>
  <div align="center">  
 
 <img src="/2019/10/28/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8/搜索过程.gif" alt="搜索过程" width="400">
@@ -220,332 +296,317 @@
 <h2 id="选择最佳节点"><a href="#选择最佳节点" class="headerlink" title="选择最佳节点"></a>选择最佳节点</h2><p>搜索结束后，选择哪个节点作为下一步的选择呢？</p>
 <p>不是选择$Q$最大的节点，也不是选择平均奖励最大的节点，而是选择<strong>访问次数</strong>最多的节点。这样，就得到了<strong>当前游戏状态(根节点)</strong>下的一个选择。</p>
 <p>如果下一步还要进行决策，则又要将下一步的状态作为<strong>根节点</strong>，重新执行MCTS搜索，并选择访问次数最多的节点作为下一步的策略。(上一步的搜索结果可以保留)</p>
-<p>以上只是MCTS的简单介绍，想更详细的了解MCTS可以参考论文<a href="http://www.researchgate.net/publication/235985858_A_Survey_of_Monte_Carlo_Tree_Search_Methods" target="_blank" rel="noopener">A Survey of Monte Carlo Tree Search Methods</a></p>
-<p>另外，Github上也已经有MCTS的Python实现源码 <a href="https://github.com/pbsinclair42/MCTS" target="_blank" rel="noopener">https://github.com/pbsinclair42/MCTS</a> </p>
+<p>以上只是 MCTS 的简单介绍，想更详细的了解 MCTS 可以参考论文<a href="http://www.researchgate.net/publication/235985858_A_Survey_of_Monte_Carlo_Tree_Search_Methods" target="_blank" rel="noopener">A Survey of Monte Carlo Tree Search Methods</a></p>
+<p>另外，Github 上也已经有 MCTS 的 Python 实现源码 <a href="https://github.com/pbsinclair42/MCTS" target="_blank" rel="noopener">https://github.com/pbsinclair42/MCTS</a> </p>
 
-        </div>
-
-        <blockquote class="post-copyright">
-    
-    <div class="content">
-        
-<span class="post-time">
-    最后更新时间：<time datetime="2019-10-28T13:38:24.674Z" itemprop="dateUpdated">2019-10-28 21:38:24</time>
-</span><br>
-
-
-        
-        转载请注明出处
-        
-    </div>
-    
-    <footer>
-        <a href="http://yoursite.com">
-            <img src="/img/avatar.png" alt="Yu Hanqing">
-            Yu Hanqing
-        </a>
-    </footer>
-</blockquote>
-
-        
-<div class="page-reward">
-    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
-</div>
-
-
-
-        <div class="post-footer">
-            
-
-            
-<div class="page-share-wrap">
-    
-
-<div class="page-share" id="pageShare">
-    <ul class="reset share-icons">
-      <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/10/28/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8/&title=《蒙特卡洛树搜索MCTS入门》 — Yu Hanqing's Blog&pic=http://yoursite.com/img/avatar.png" data-title="微博">
-          <i class="icon icon-weibo"></i>
-        </a>
-      </li>
-      <li>
-        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
-          <i class="icon icon-weixin"></i>
-        </a>
-      </li>
-      <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/10/28/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8/&title=《蒙特卡洛树搜索MCTS入门》 — Yu Hanqing's Blog&source=蒙特卡洛树搜索的简单介绍" data-title=" QQ">
-          <i class="icon icon-qq"></i>
-        </a>
-      </li>
-      <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/10/28/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8/" data-title=" Facebook">
-          <i class="icon icon-facebook"></i>
-        </a>
-      </li>
-      <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《蒙特卡洛树搜索MCTS入门》 — Yu Hanqing's Blog&url=http://yoursite.com/2019/10/28/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8/&via=http://yoursite.com" data-title=" Twitter">
-          <i class="icon icon-twitter"></i>
-        </a>
-      </li>
-      <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/10/28/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8/" data-title=" Google+">
-          <i class="icon icon-google-plus"></i>
-        </a>
-      </li>
-    </ul>
- </div>
-
-
-
-    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
-        <i class="icon icon-share-alt icon-lg"></i>
-    </a>
-</div>
-
-
-
-        </div>
     </div>
 
     
-
-
     
+    
+        <div class="reward-container">
+  <div>原创技术分享，您的支持将鼓励我继续创作</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="Yu Hanqing 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.png" alt="Yu Hanqing 支付宝">
+        <p>支付宝</p>
+      </div>
 
+  </div>
+</div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<section class="comments" id="comments">
-    <div id="gitalk-container"></div>
-    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
-    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-    <script>
-        var id = location.pathname
-        if (location.pathname.length > 50) {
-          id = location.pathname.replace(/\/\d+\/\d+\/\d+\//, '').replace('/', '').substring(0, 50)
-        }
-        const gitalk = new Gitalk({
-          clientID: '171bf4bbf0f759a940d4',
-          clientSecret: 'f975712e0a328ceec85cdd14dd20ce3dcf4dfcfc',
-          repo: 'iqhy.github.io',
-          owner: 'iqhy',
-          admin: ['iqhy'],
-          id: id,      // Ensure uniqueness and length less than 50
-          title: document.title.split('|')[0],
-          distractionFreeMode: false  // Facebook-like distraction free mode
-        })
-
-        gitalk.render('gitalk-container')
-    </script>
-</section>
-
-
-
-
-</article>
-
-<div id="reward" class="page-modal reward-lay">
-    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <h3 class="reward-title">
-        <i class="icon icon-quote-left"></i>
-        您的支持将鼓励我继续创作
-        <i class="icon icon-quote-right"></i>
-    </h3>
-    <div class="reward-content">
         
-        <div class="reward-code">
-            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
-        </div>
-        
-        <label class="reward-toggle">
-            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
-                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
-            <div class="reward-toggle-ctrol">
-                <span class="reward-toggle-item wechat">微信</span>
-                <span class="reward-toggle-label"></span>
-                <span class="reward-toggle-item alipay">支付宝</span>
-            </div>
-        </label>
-        
-    </div>
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Yu Hanqing
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://yoursite.com/2019/10/28/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8/" title="蒙特卡洛树搜索MCTS入门">http://yoursite.com/2019/10/28/蒙特卡洛树搜索MCTS入门/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
 </div>
 
 
+      <footer class="post-footer">
 
-</div>
-
-        <footer class="footer">
-    <div class="top">
         
-<p>
-    <span id="busuanzi_container_site_uv" style='display:none'>
-        站点总访客数：<span id="busuanzi_value_site_uv"></span>
-    </span>
-    <span id="busuanzi_container_site_pv" style='display:none'>
-        站点总访问量：<span id="busuanzi_value_site_pv"></span>
-    </span>
-</p>
 
 
-        <p>
-            
-                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
-            
-            <span>博客内容遵循 <a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
-        </p>
-    </div>
-    <div class="bottom">
-        <p><span>Yu Hanqing &copy; 2019</span>
-            <span>
-                
-                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
-            </span>
-        </p>
-    </div>
-</footer>
+        
+      </footer>
+    
+  </article>
+  
+  
+  
 
-    </main>
-    <div class="mask" id="mask"></div>
-<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+  </div>
 
 
-
-<div class="global-share" id="globalShare">
-    <ul class="reset share-icons">
-      <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/10/28/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8/&title=《蒙特卡洛树搜索MCTS入门》 — Yu Hanqing's Blog&pic=http://yoursite.com/img/avatar.png" data-title="微博">
-          <i class="icon icon-weibo"></i>
-        </a>
-      </li>
-      <li>
-        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
-          <i class="icon icon-weixin"></i>
-        </a>
-      </li>
-      <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/10/28/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8/&title=《蒙特卡洛树搜索MCTS入门》 — Yu Hanqing's Blog&source=蒙特卡洛树搜索的简单介绍" data-title=" QQ">
-          <i class="icon icon-qq"></i>
-        </a>
-      </li>
-      <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/10/28/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8/" data-title=" Facebook">
-          <i class="icon icon-facebook"></i>
-        </a>
-      </li>
-      <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《蒙特卡洛树搜索MCTS入门》 — Yu Hanqing's Blog&url=http://yoursite.com/2019/10/28/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8/&via=http://yoursite.com" data-title=" Twitter">
-          <i class="icon icon-twitter"></i>
-        </a>
-      </li>
-      <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/10/28/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8/" data-title=" Google+">
-          <i class="icon icon-google-plus"></i>
-        </a>
-      </li>
-    </ul>
- </div>
-
-
-<div class="page-modal wx-share" id="wxShare">
-    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQ4AAAEOCAAAAABd2qZ5AAAD40lEQVR42u3awY4aQQwE0P3/nyZSTomUhSrb7K6UNyeEYKb7cTDl9sdHfD1+X8nrP9/J75O8k9w5//zqwoEDBw4cwVY/u/JlfUaT8G3eT36YZI84cODAgeOWY18UkwcnxTivgC3H8z3iwIEDB46v58gX9DzUzZja6IgDBw4cOH4+R7LtFjH/GZLP48CBAweOn8ORNAeTUtoWy5apvd7YK8WBAwcOHPO+XDHQ8DNff9t8Bw4cOHD8ZxyPxTUrn/uBhjbaFTvCgQMHDhxrjvzW+WFSvqW22ddueBYyceDAgQPHhmO2uLwE5oc9s2/thx7++iQOHDhw4FhzzAhmA22zJeZjdvlqh01DHDhw4MBR1pHbI/9ZeNvDteNxL5qDOHDgwIGj5Ngc6mw23xbX2fbq9eDAgQMHjjdw5EU3aRG2sSpnmrUjX+wCBw4cOHCsOZJttI2//HAoH4lrv9UeQeHAgQMHjiuOtizlpzOzINceFOXlfDUqhwMHDhw4So5NDMvLW4uyD3htKMWBAwcOHFccbeFMDqiu2ogbynywr+6V4sCBAweOp89qw1jbdNsU7LaQb1qEOHDgwIFjz3EVn/LXm0bebGShKNU4cODAgWPN0UamWTzbtwuvNl+UWxw4cODAMVp/HqLyGJYcAuWFdjbWMBvLwIEDBw4ctxybSJYf/1xFtZYpuhsOHDhw4DjlyAvtJjjNCvD+iVGMxIEDBw4ca47N9vJiecs3K6jFOAUOHDhw4FhztBubHT7ljbzZIMIjvoqxBhw4cODAUXI8f3yy4asxiNuYNxuww4EDBw4ce45NCy+56dWwQnLn9rvHHU0cOHDgwFEOH9wOELStw32ALP4i4MCBAweOBccsLLXbuy3bm9bhCywcOHDgwLHmaONWWz43rcbZSvZwOHDgwIHjimOWZRKaWTsyL5l52c53gQMHDhw4ZhzJiEDe+MsD2OYO7fhCPgyBAwcOHDhuOdpGW97Cuz1Sascvij8EOHDgwIHjiCMPabNBgTZ05cdgyQ+WHDsNwy8OHDhw4HjaDWsXlAezPJK19JuhChw4cODA8Q6OdjQtj0ZtQzAfm/g4vXDgwIEDxy3Ho7zy8txGvlnx3hTyf9wNBw4cOHCsOVb1OW78zaJU22TMRyjagzEcOHDgwNE+a9ZcayE2fJswmQdOHDhw4MBxyzELY/lCkyg1I2v/Qbwo0jhw4MCB48s5knKbH2hdDcPNmpWrtIoDBw4cONYceXsuP/LJQ9estA/nO3DgwIEDx5oj314e1ZKlb2Le7ODqxf1x4MCBA8eaox1oSPjaRuEVSg43+yuAAwcOHDierv8XiUE0NvmsezkAAAAASUVORK5CYII=" alt="微信分享二维码">
-</div>
-
-
-
-
-    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
-<script>
-var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
-
-
-</script>
-
-<script src="/js/main.min.js?v=1.7.2"></script>
-
-
-<div class="search-panel" id="search-panel">
-    <ul class="search-result" id="search-result"></ul>
-</div>
-<template id="search-tpl">
-<li class="item">
-    <a href="{path}" class="waves-block waves-effect">
-        <div class="title ellipsis" title="{title}">{title}</div>
-        <div class="flex-row flex-middle">
-            <div class="tags ellipsis">
-                {tags}
-            </div>
-            <time class="flex-col time">{date}</time>
-        </div>
-    </a>
-</li>
-</template>
-
-<script src="/js/search.min.js?v=1.7.2" async></script>
-
-
-
-<!-- mathjax config similar to math.stackexchange -->
-
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-    tex2jax: {
-        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-        processEscapes: true,
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-    }
-});
-
-MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i=0; i < all.length; i += 1) {
-        all[i].SourceElement().parentNode.className += ' has-jax';
-    }
-});
-</script>
-
-<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
-
-
-
-
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
 
 <script>
-(function() {
-    var OriginTitile = document.title, titleTime;
-    document.addEventListener('visibilitychange', function() {
-        if (document.hidden) {
-            document.title = '(つェ⊂)';
-            clearTimeout(titleTime);
-        } else {
-            document.title = '欢迎回来';
-            titleTime = setTimeout(function() {
-                document.title = OriginTitile;
-            },2000);
-        }
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
     });
-})();
+  }
 </script>
 
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
 
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基础知识"><span class="nav-number">1.</span> <span class="nav-text">基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#节点"><span class="nav-number">1.1.</span> <span class="nav-text">节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#节点的两个属性"><span class="nav-number">1.2.</span> <span class="nav-text">节点的两个属性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#搜索过程"><span class="nav-number">2.</span> <span class="nav-text">搜索过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#选择-Selection"><span class="nav-number">2.1.</span> <span class="nav-text">选择(Selection)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#扩展-Expansion"><span class="nav-number">2.2.</span> <span class="nav-text">扩展 (Expansion)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模拟-Simulation"><span class="nav-number">2.3.</span> <span class="nav-text">模拟 (Simulation)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#反向传播-Backpropagation"><span class="nav-number">2.4.</span> <span class="nav-text">反向传播 (Backpropagation)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#搜索过程展示"><span class="nav-number">2.5.</span> <span class="nav-text">搜索过程展示</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#搜索结束"><span class="nav-number">3.</span> <span class="nav-text">搜索结束</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#选择最佳节点"><span class="nav-number">4.</span> <span class="nav-text">选择最佳节点</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Yu Hanqing"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Yu Hanqing</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">1</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2019-10 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yu Hanqing</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">2k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">6 分钟</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.1
+  </div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: 'f975712e0a328ceec85cdd14dd20ce3dcf4dfcfc',
+      clientSecret: '',
+      repo: 'iqhy.github.io',
+      owner: 'iqhy',
+      admin: [''],
+      id: '54aa4e1b3d5cc94460391ea6f83a7136',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
 
 </body>
 </html>
