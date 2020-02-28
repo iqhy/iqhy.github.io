@@ -46,20 +46,21 @@
   };
 </script>
 
-  <meta name="description" content="【内容简介】蒙特卡洛树搜索(Monte Carlo Tree Search) 是一种寻找最优决策的方法，在AlphaGo中被运用，其主要分为四步：选择(Selection)，拓展(Expansion)，模拟(Simulation)，反向传播(Backpropagation)。 本文以井字棋为例对这一方法进行介绍。">
+  <meta name="description" content="蒙特卡洛树搜索(Monte Carlo Tree Search) ，一种寻找最优决策的方法。">
+<meta name="keywords" content="mcts">
 <meta property="og:type" content="article">
-<meta property="og:title" content="蒙特卡洛树搜索MCTS入门">
-<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;10&#x2F;28&#x2F;%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8&#x2F;index.html">
+<meta property="og:title" content="蒙特卡洛树搜索 MCTS 入门">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;10&#x2F;28&#x2F;%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2%20MCTS%20%E5%85%A5%E9%97%A8&#x2F;index.html">
 <meta property="og:site_name" content="Yu Hanqing&#39;s Blog">
-<meta property="og:description" content="【内容简介】蒙特卡洛树搜索(Monte Carlo Tree Search) 是一种寻找最优决策的方法，在AlphaGo中被运用，其主要分为四步：选择(Selection)，拓展(Expansion)，模拟(Simulation)，反向传播(Backpropagation)。 本文以井字棋为例对这一方法进行介绍。">
+<meta property="og:description" content="蒙特卡洛树搜索(Monte Carlo Tree Search) ，一种寻找最优决策的方法。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;10&#x2F;28&#x2F;%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8&#x2F;节点.png">
-<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;10&#x2F;28&#x2F;%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8&#x2F;搜索过程.gif">
-<meta property="og:updated_time" content="2020-02-28T05:04:56.625Z">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;10&#x2F;28&#x2F;%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2%20MCTS%20%E5%85%A5%E9%97%A8&#x2F;节点.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;10&#x2F;28&#x2F;%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2%20MCTS%20%E5%85%A5%E9%97%A8&#x2F;搜索过程.gif">
+<meta property="og:updated_time" content="2020-02-28T05:41:34.165Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;10&#x2F;28&#x2F;%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8&#x2F;节点.png">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;10&#x2F;28&#x2F;%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2%20MCTS%20%E5%85%A5%E9%97%A8&#x2F;节点.png">
 
-<link rel="canonical" href="http://yoursite.com/2019/10/28/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8/">
+<link rel="canonical" href="http://yoursite.com/2019/10/28/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2%20MCTS%20%E5%85%A5%E9%97%A8/">
 
 
 <script id="page-configurations">
@@ -71,7 +72,7 @@
   };
 </script>
 
-  <title>蒙特卡洛树搜索MCTS入门 | Yu Hanqing's Blog</title>
+  <title>蒙特卡洛树搜索 MCTS 入门 | Yu Hanqing's Blog</title>
   
 
 
@@ -180,7 +181,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/28/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/28/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2%20MCTS%20%E5%85%A5%E9%97%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -193,7 +194,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          蒙特卡洛树搜索MCTS入门
+          蒙特卡洛树搜索 MCTS 入门
         </h1>
 
         <div class="post-meta">
@@ -210,7 +211,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-02-28 13:04:56" itemprop="dateModified" datetime="2020-02-28T13:04:56+08:00">2020-02-28</time>
+                <time title="修改时间：2020-02-28 13:41:34" itemprop="dateModified" datetime="2020-02-28T13:41:34+08:00">2020-02-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -237,7 +238,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.2k</span>
+              <span>2.3k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -256,12 +257,13 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>【内容简介】<strong>蒙特卡洛树搜索</strong>(Monte Carlo Tree Search) 是一种寻找最优决策的方法，在AlphaGo中被运用，其主要分为四步：<strong>选择</strong>(Selection)，<strong>拓展</strong>(Expansion)，<strong>模拟</strong>(Simulation)，<strong>反向传播</strong>(Backpropagation)。 本文以<strong>井字棋</strong>为例对这一方法进行介绍。</p>
+        <p>蒙特卡洛树搜索(Monte Carlo Tree Search) ，一种寻找最优决策的方法。</p>
 <a id="more"></a>
 
+<p>【内容简介】<strong>蒙特卡洛树搜索</strong>(Monte Carlo Tree Search) 是一种寻找最优决策的方法，在AlphaGo中被运用，其主要分为四步：<strong>选择</strong>(Selection)，<strong>拓展</strong>(Expansion)，<strong>模拟</strong>(Simulation)，<strong>反向传播</strong>(Backpropagation)。 本文以<strong>井字棋</strong>为例对这一方法进行介绍。</p>
 <h2 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h2><h3 id="节点"><a href="#节点" class="headerlink" title="节点"></a>节点</h3><p>在棋类问题中，MCTS 使用一个<strong>节点</strong>来表示一个<strong>游戏状态</strong>。若现在井字棋的棋盘上只有中间一个棋子，我们用一个节点表示这个游戏状态。那么，下一步棋有<strong>8种下法</strong>，所以对应的，刚才那个节点就有<strong>8个子节点</strong>(图中只画出了3个)，如下图所示。根据这个方法，这些子节点又有子节点，所有的井字棋游戏状态都可以被这样表示，于是它们就构成了一个树。蒙特卡洛树搜索就是要在这样一个树中搜索最可能获胜的游戏状态，即搜索最佳<strong>下棋策略</strong>。</p>
   <div align="center">  
-<img src="/2019/10/28/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8/节点.png" alt="节点" width="250">
+<img src="/2019/10/28/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2%20MCTS%20%E5%85%A5%E9%97%A8/节点.png" alt="节点" width="250">
 
 </div>
 
@@ -284,7 +286,7 @@
 <h3 id="搜索过程展示"><a href="#搜索过程展示" class="headerlink" title="搜索过程展示"></a>搜索过程展示</h3><p>看完了这四个步骤，我们再来看一张动图帮助理解。图中节点内数字表示 $Q(v)/N(v)$</p>
  <div align="center">  
 
-<img src="/2019/10/28/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8/搜索过程.gif" alt="搜索过程" width="400">
+<img src="/2019/10/28/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2%20MCTS%20%E5%85%A5%E9%97%A8/搜索过程.gif" alt="搜索过程" width="400">
 
 </div>
 
@@ -312,12 +314,12 @@
   <div id="qr" style="display: none;">
       
       <div style="display: inline-block;">
-        <img src="/images/wechatpay.png" alt="Yu Hanqing 微信支付">
+        <img src="/images/wechatpay.jpg" alt="Yu Hanqing 微信支付">
         <p>微信支付</p>
       </div>
       
       <div style="display: inline-block;">
-        <img src="/images/alipay.png" alt="Yu Hanqing 支付宝">
+        <img src="/images/alipay.jpg" alt="Yu Hanqing 支付宝">
         <p>支付宝</p>
       </div>
 
@@ -333,7 +335,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://yoursite.com/2019/10/28/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2MCTS%E5%85%A5%E9%97%A8/" title="蒙特卡洛树搜索MCTS入门">http://yoursite.com/2019/10/28/蒙特卡洛树搜索MCTS入门/</a>
+    <a href="http://yoursite.com/2019/10/28/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%A0%91%E6%90%9C%E7%B4%A2%20MCTS%20%E5%85%A5%E9%97%A8/" title="蒙特卡洛树搜索 MCTS 入门">http://yoursite.com/2019/10/28/蒙特卡洛树搜索 MCTS 入门/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -343,11 +345,21 @@
 
 
       <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/mcts/" rel="tag"># mcts</a>
+          </div>
 
         
 
 
         
+    <div class="post-nav">
+      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2020/02/28/Python%20%E8%B0%83%E7%94%A8%20C++/" rel="next" title="Python 调用 C++">
+      Python 调用 C++ <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
       </footer>
     
   </article>
@@ -422,13 +434,21 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">1</span>
+          <span class="site-state-item-count">2</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
-        <span class="site-state-item-count">1</span>
-        <span class="site-state-item-name">分类</span>
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
 </div>
@@ -461,12 +481,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">2k</span>
+    <span title="站点总字数">9k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">6 分钟</span>
+    <span title="站点阅读时长">22 分钟</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
   </div>
@@ -534,6 +554,27 @@
 
 
 
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '171bf4bbf0f759a940d4',
+      clientSecret: 'f975712e0a328ceec85cdd14dd20ce3dcf4dfcfc',
+      repo: 'iqhy.github.io',
+      owner: 'iqhy',
+      admin: [''],
+      id: '516a35d265e49707e113184afbcbb8c8',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+
   
 
   
@@ -594,12 +635,12 @@
 NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
   NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
     var gitalk = new Gitalk({
-      clientID: 'f975712e0a328ceec85cdd14dd20ce3dcf4dfcfc',
-      clientSecret: '',
+      clientID: '171bf4bbf0f759a940d4',
+      clientSecret: 'f975712e0a328ceec85cdd14dd20ce3dcf4dfcfc',
       repo: 'iqhy.github.io',
       owner: 'iqhy',
       admin: [''],
-      id: '54aa4e1b3d5cc94460391ea6f83a7136',
+      id: 'c9d4d33176c99f6ccdd9ef8dc4545d74',
         language: '',
       distractionFreeMode: true
     });
