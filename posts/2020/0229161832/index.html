@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon_32px.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon_16px.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.7.1',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":"flat"},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="使用 frugally-deep 在 C++ 中轻松调用 Keras 模型">
+<meta name="keywords" content="C++,机器学习,keras">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在 C++ 中调用 keras">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;posts&#x2F;2020&#x2F;0229161832&#x2F;index.html">
+<meta property="og:site_name" content="iqhy&#39;s Blog">
+<meta property="og:description" content="使用 frugally-deep 在 C++ 中轻松调用 Keras 模型">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-02-29T08:19:11.596Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/posts/2020/0229161832/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>在 C++ 中调用 keras | iqhy's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">iqhy's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/2020/0229161832/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="iqhy">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="iqhy's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          在 C++ 中调用 keras
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-02-29 16:18:32 / 修改时间：16:19:11" itemprop="dateCreated datePublished" datetime="2020-02-29T16:18:32+08:00">2020-02-29</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>14 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>使用 frugally-deep 在 C++ 中轻松调用 Keras 模型</p>
+<a id="more"></a>
+
+<p>Keras 使用起来非常方便，我们有时候需要在 C++ 中调用训练好的模型，希望在 C++ 中调用 Keras 的 <code>model.predict()</code>，但 Keras 并没有提供 C++ API。一种解决方法是使用 TensorFlow 的 C++ API，但编译过程非常繁琐，这里我们使用另一种方法，使用 Github 上的 <a href="https://github.com/Dobiasd/frugally-deep" target="_blank" rel="noopener">frugally-deep</a>。</p>
+<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>frugally-deep 是一个用 C++ 实现的库，简单易用，无需编译 TensorFlow，仅支持在 CPU 上运行。</p>
+<h3 id="支持的模型"><a href="#支持的模型" class="headerlink" title="支持的模型"></a>支持的模型</h3><p>frugally-deep 支持大多数常用的模型</p>
+<ul>
+<li><code>Add</code>, <code>Concatenate</code>, <code>Subtract</code>, <code>Multiply</code>, <code>Average</code>, <code>Maximum</code></li>
+<li><code>AveragePooling1D/2D</code>, <code>GlobalAveragePooling1D/2D</code></li>
+<li><code>Bidirectional</code>, <code>TimeDistributed</code>, <code>GRU</code>, <code>LSTM</code>, <code>CuDNNGRU</code>, <code>CuDNNLSTM</code></li>
+<li><code>Conv1D/2D</code>, <code>SeparableConv2D</code>, <code>DepthwiseConv2D</code></li>
+<li><code>Cropping1D/2D</code>, <code>ZeroPadding1D/2D</code></li>
+<li><code>BatchNormalization</code>, <code>Dense</code>, <code>Flatten</code></li>
+<li><code>Dropout</code>, <code>AlphaDropout</code>, <code>GaussianDropout</code>, <code>GaussianNoise</code></li>
+<li><code>SpatialDropout1D</code>, <code>SpatialDropout2D</code>, <code>SpatialDropout3D</code></li>
+<li><code>MaxPooling1D/2D</code>, <code>GlobalMaxPooling1D/2D</code></li>
+<li><code>ELU</code>, <code>LeakyReLU</code>, <code>ReLU</code>, <code>SeLU</code>, <code>PReLU</code></li>
+<li><code>Sigmoid</code>, <code>Softmax</code>, <code>Softplus</code>, <code>Tanh</code></li>
+<li><code>UpSampling1D/2D</code></li>
+<li><code>Reshape</code>, <code>Permute</code></li>
+<li><code>Embedding</code></li>
+</ul>
+<p>以及</p>
+<ul>
+<li>multiple inputs and outputs</li>
+<li>nested models</li>
+<li>residual connections</li>
+<li>shared layers</li>
+<li>variable input shapes</li>
+<li>arbitrary complex model architectures / computational graphs</li>
+<li>custom layers (by passing custom factory functions to <code>load_model</code>)</li>
+</ul>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>frugally-deep 的安装很简单，可以使用官方安装教程 <a href="https://github.com/Dobiasd/frugally-deep/blob/master/INSTALL.md" target="_blank" rel="noopener">INSTALL.md</a> 上的命令安装，也可以直接下载源码。使用命令安装的方法已经很详细了，这里采用直接下载源码的方式。</p>
+<p>frugally-deep 需要</p>
+<ul>
+<li>支持 C++14 的编译器</li>
+<li>Python 3.5 以上</li>
+<li>TensorFlow 2.0.0</li>
+</ul>
+<p>如果你正在使用 Tensorflow 1.x 的 keras，安装 TensorFlow 2.0.0 后大多数情况下只需要把 <code>import keras</code> 修改为 <code>import tensorflow.keras</code> 即可</p>
+<h3 id="下载源码"><a href="#下载源码" class="headerlink" title="下载源码"></a>下载源码</h3><p>分别前往<a href="https://github.com/Dobiasd/frugally-deep" target="_blank" rel="noopener">frugally-deep</a>, <a href="https://github.com/Dobiasd/FunctionalPlus" target="_blank" rel="noopener">FunctionalPlus</a> , <a href="http://eigen.tuxfamily.org/" target="_blank" rel="noopener">Eigen</a> 和 <a href="https://github.com/nlohmann/json" target="_blank" rel="noopener">json</a> 点击右侧的 Clone or download 再点击 Download ZIP 下载这些源码。</p>
+<h3 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h3><p>假设现在的代码根目录下的源文件只有 <code>main.cpp</code>，文件结构：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">+-- main.cpp</span><br></pre></td></tr></table></figure>
+
+<p>将 frugally-deep 源码中的 include 文件夹和 keras_export 文件夹解压到与 <code>main.cpp</code> 相同的目录下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">+-- include</span><br><span class="line">|   +-- fdeep</span><br><span class="line">+-- keras_export</span><br><span class="line">+-- main.cpp</span><br></pre></td></tr></table></figure>
+
+<p>将 FunctionalPlus 源码中 include 文件夹内的 fplus 文件夹复制到 <code>main.cpp</code> 相同目录下的 include 文件夹内：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">+-- include</span><br><span class="line">|   +-- fdeep</span><br><span class="line">|   +-- fplus</span><br><span class="line">+-- keras_export</span><br><span class="line">+-- main.cpp</span><br></pre></td></tr></table></figure>
+
+<p>同样，将 json 源码中 include 文件夹内的 nlohmann 文件夹复制到 <code>main.cpp</code> 相同目录下的 include 文件夹内：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">+-- include</span><br><span class="line">|   +-- fdeep</span><br><span class="line">|   +-- fplus</span><br><span class="line">|   +-- nolhmann</span><br><span class="line">+-- keras_export</span><br><span class="line">+-- main.cpp</span><br></pre></td></tr></table></figure>
+
+<p>最后将 eigen 源码中 Eigen 文件夹放在 <code>main.cpp</code> 相同目录下的 include 文件夹内</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">+-- include</span><br><span class="line">|   +-- Eigen</span><br><span class="line">|   +-- fdeep</span><br><span class="line">|   +-- fplus</span><br><span class="line">|   +-- nolhmann</span><br><span class="line">+-- keras_export</span><br><span class="line">+-- main.cpp</span><br></pre></td></tr></table></figure>
+
+<p>需要的文件已经安装完成，下面可以开始使用了。</p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>使用 frugally-deep 的总体过程为：</p>
+<ol>
+<li>在 Python 中训练好模型后，使用 <code>model.save(&#39;....h5&#39;, include_optimizer=False)</code> 保存模型</li>
+<li>使用 <code>keras_export/convert_model.py</code> 将 <code>.h5</code> 模型转换成 C++ 模型</li>
+<li>在 C++ 中使用 <code>fdeep::load_model(...)</code> 加载模型</li>
+<li>在 C++ 中使用 <code>model.predict(...)</code> 调用模型</li>
+</ol>
+<p>下面我们以 frugally-deep <a href="https://github.com/Dobiasd/frugally-deep" target="_blank" rel="noopener">主页</a> 上的例子来说明如何使用。假设我们在 Python 中编写了模型</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># create_model.py</span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> tensorflow.keras.layers <span class="keyword">import</span> Input, Dense</span><br><span class="line"><span class="keyword">from</span> tensorflow.keras.models <span class="keyword">import</span> Model</span><br><span class="line"></span><br><span class="line">inputs = Input(shape=(<span class="number">4</span>,))</span><br><span class="line">x = Dense(<span class="number">5</span>, activation=<span class="string">'relu'</span>)(inputs)</span><br><span class="line">predictions = Dense(<span class="number">3</span>, activation=<span class="string">'softmax'</span>)(x)</span><br><span class="line">model = Model(inputs=inputs, outputs=predictions)</span><br><span class="line">model.compile(loss=<span class="string">'categorical_crossentropy'</span>, optimizer=<span class="string">'nadam'</span>)</span><br><span class="line"></span><br><span class="line">model.fit(</span><br><span class="line">    np.asarray([[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>], [<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]]),</span><br><span class="line">    np.asarray([[<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>], [<span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>]]), epochs=<span class="number">10</span>)</span><br><span class="line"></span><br><span class="line">model.save(<span class="string">'keras_model.h5'</span>, include_optimizer=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
+
+<p>模型保存后，使用下面的命令进行转换</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python keras_export/convert_model.py keras_model.h5 fdeep_model.json</span><br></pre></td></tr></table></figure>
+
+<p>看到下面这些就是转换成功了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Forward pass took 0.091729 s.</span><br><span class="line">Forward pass took 0.038896 s.</span><br><span class="line">Forward pass took 0.077791 s.</span><br><span class="line">Starting performance measurements.</span><br><span class="line">Forward pass took 0.037899 s.</span><br><span class="line">Forward pass took 0.037896 s.</span><br><span class="line">Forward pass took 0.043883 s.</span><br><span class="line">Forward pass took 0.038922 s.</span><br><span class="line">Forward pass took 0.042861 s.</span><br><span class="line">Forward pass took 0.04029220000000001 s on average.</span><br><span class="line">Converting model architecture.</span><br><span class="line">Converting model weights.</span><br><span class="line">Done converting model weights.</span><br><span class="line">Calculating model hash.</span><br><span class="line">Model conversion finished.</span><br><span class="line">writing fdeep_model.json</span><br></pre></td></tr></table></figure>
+
+<p>转换过程中，frugally-deep 会自动对模型进行测试，验证相同的输入数据下 Python 和 C++ 的输出是否相同。</p>
+<p>转换完成后，在 C++ 中进行调用</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// main.cpp</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;fdeep/fdeep.hpp&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> model = fdeep::load_model(<span class="string">"fdeep_model.json"</span>);</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> result = model.predict(</span><br><span class="line">        &#123;fdeep::tensor(fdeep::tensor_shape(<span class="keyword">static_cast</span>&lt;<span class="built_in">std</span>::<span class="keyword">size_t</span>&gt;(<span class="number">4</span>)),</span><br><span class="line">        &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>&#125;)&#125;);</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; fdeep::show_tensors(result) &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这时，以 Visual Studio 为例，编译器会报错</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fatal error C1083: 无法打开包括文件: “fdeep/fdeep.hpp”: No such file or directory</span><br></pre></td></tr></table></figure>
+
+<p>这是因为还没有添加<strong>附加包含目录</strong>，右键点击<strong>”解决方案资源管理器“</strong>中的<strong>项目名称</strong>，选择<strong>属性</strong> -&gt; <strong>配置属性</strong> -&gt; <strong>C/C++</strong> -&gt; <strong>常规</strong>，在右侧的附加包含目录中填上 <code>$(ProjectDir)include;</code> 若使用 gcc 编译器，要加上参数 <code>-Iinclude</code></p>
+<p>再次运行 <code>main.cpp</code>，输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Loading json ... done. elapsed time: 0.009921 s</span><br><span class="line">Building model ... done. elapsed time: 0.018725 s</span><br><span class="line">Running test 1 of 1 ... done. elapsed time: 0.003242 s</span><br><span class="line">Loading, constructing, testing of fdeep_model.json took 0.038064 s overall.</span><br><span class="line">[[[[[[[0.7297, 0.1624, 0.1078]]]]]]]</span><br></pre></td></tr></table></figure>
+
+<p>调用成功。另外，<code>model.predict</code> 是<strong>线程安全</strong>的，可以在不同线程中直接调用。</p>
+<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><h3 id="model-predict-的数据类型"><a href="#model-predict-的数据类型" class="headerlink" title="model.predict() 的数据类型"></a>model.predict() 的数据类型</h3><p>frugally-deep 使用的数据类型是 <code>fdeep::tensor</code>，下面的例子说明了如何声明一个 <code>fdeep::tensor</code> 并初始化</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// tensor的形状参数在fdeep::tensor_shape()中，0是初始化的值</span></span><br><span class="line">fdeep::<span class="function">tensor <span class="title">tensor_a</span><span class="params">(fdeep::tensor_shape(<span class="number">3</span>, <span class="number">8</span>, <span class="number">3</span>), <span class="number">0</span>)</span></span>;</span><br><span class="line"><span class="comment">// 将tensor_a[0][1][2]位置的值置1</span></span><br><span class="line">tensor_a.<span class="built_in">set</span>(fdeep::internal::tensor_pos(<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>), <span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+
+<p>除此之外，还有其他的方法可以参考官方 <a href="https://github.com/Dobiasd/frugally-deep/blob/master/FAQ.md" target="_blank" rel="noopener">FAQ.md</a>。要注意，frugally-deep 中必须采用 channel-last 的格式。</p>
+<h3 id="error-C2653"><a href="#error-C2653" class="headerlink" title="error C2653:"></a>error C2653:</h3><p>使用 Visual Studio 2019 时可能会遇到这个问题</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">error C2653: &apos;FOut&apos;: is not a class or namespace name</span><br></pre></td></tr></table></figure>
+
+<p>这是一个编译器 BUG，详见 <a href="https://github.com/Dobiasd/FunctionalPlus/issues/159" target="_blank" rel="noopener">Github issue</a> ，目前已经在 16.5 Preview 2 版本中修复，解决方法是使用 Visual Studio 预览版或 Visual Studio 2017。</p>
+<h3 id="fdeep-model-没有默认构造函数"><a href="#fdeep-model-没有默认构造函数" class="headerlink" title="fdeep::model 没有默认构造函数"></a>fdeep::model 没有默认构造函数</h3><p>当使用 <code>fdeep::model</code> 作为类的成员变量时，会遇到 <code>fdeep::model 没有默认构造函数</code> 的问题，这是作者刻意为之的，解决方法是使用<code>std::unique_ptr&lt;fdeep::model&gt;</code></p>
+<p>下面的例子说明了如何使用</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// neural_network.h</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;fdeep/fdeep.hpp&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NeuralNetwork</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	<span class="built_in">std</span>::<span class="built_in">unique_ptr</span>&lt;fdeep::model&gt; model;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	NeuralNetwork();</span><br><span class="line">	fdeep::<span class="function">tensors <span class="title">predict</span><span class="params">(fdeep::tensor&amp; feature_planes)</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// neural_network.cpp</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"neural_network.h"</span></span></span><br><span class="line"></span><br><span class="line">NeuralNetwork::NeuralNetwork()</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">this</span>-&gt;model = <span class="built_in">std</span>::make_unique&lt;fdeep::model&gt;(fdeep::load_model(<span class="string">"fdeep_model.json"</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fdeep::tensors NeuralNetwork::predict(fdeep::tensor&amp; data)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">this</span>-&gt;model-&gt;predict(&#123; data &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="运行速度比-Python-慢-100-倍"><a href="#运行速度比-Python-慢-100-倍" class="headerlink" title="运行速度比 Python 慢 100 倍"></a>运行速度比 Python 慢 100 倍</h3><p>Visual Studio 要使用 “Release” 模式，gcc 要开启 -O3 优化。参考<a href="https://github.com/Dobiasd/frugally-deep/blob/master/FAQ.md" target="_blank" rel="noopener">FAQ.md</a></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>如果你需要在 C++ 中调用 <code>model.predict()</code> 且没有使用 GPU 的需求，frugally-deep 是一个很好的选择。</p>
+<p>还想了解更多可以阅读官方的英文资料 <a href="https://github.com/Dobiasd/frugally-deep" target="_blank" rel="noopener">frugally-deep</a></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a href="https://github.com/Dobiasd/frugally-deep" target="_blank" rel="noopener">https://github.com/Dobiasd/frugally-deep</a></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>原创技术分享，您的支持将鼓励我继续创作</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.jpg" alt="iqhy 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.jpg" alt="iqhy 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>iqhy
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://yoursite.com/posts/2020/0229161832/" title="在 C++ 中调用 keras">http://yoursite.com/posts/2020/0229161832/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/C/" rel="tag"># C++</a>
+              <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag"># 机器学习</a>
+              <a href="/tags/keras/" rel="tag"># keras</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/2020/0228155601/" rel="prev" title="Python 调用 C++">
+      <i class="fa fa-chevron-left"></i> Python 调用 C++
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#介绍"><span class="nav-number">1.</span> <span class="nav-text">介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#支持的模型"><span class="nav-number">1.1.</span> <span class="nav-text">支持的模型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">2.</span> <span class="nav-text">安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#下载源码"><span class="nav-number">2.1.</span> <span class="nav-text">下载源码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解压"><span class="nav-number">2.2.</span> <span class="nav-text">解压</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用"><span class="nav-number">3.</span> <span class="nav-text">使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常见问题"><span class="nav-number">4.</span> <span class="nav-text">常见问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#model-predict-的数据类型"><span class="nav-number">4.1.</span> <span class="nav-text">model.predict() 的数据类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#error-C2653"><span class="nav-number">4.2.</span> <span class="nav-text">error C2653:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fdeep-model-没有默认构造函数"><span class="nav-number">4.3.</span> <span class="nav-text">fdeep::model 没有默认构造函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行速度比-Python-慢-100-倍"><span class="nav-number">4.4.</span> <span class="nav-text">运行速度比 Python 慢 100 倍</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">6.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="iqhy"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">iqhy</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/iqhy" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;iqhy" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:imyuhanqing@outlook.com" title="E-Mail → mailto:imyuhanqing@outlook.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2019-10 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">iqhy</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">14k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">35 分钟</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.1
+  </div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=true&web_id=true"></script>
+  </div>
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.1.0/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '171bf4bbf0f759a940d4',
+      clientSecret: 'f975712e0a328ceec85cdd14dd20ce3dcf4dfcfc',
+      repo: 'iqhy.github.io',
+      owner: 'iqhy',
+      admin: ['iqhy'],
+      id: '516a35d265e49707e113184afbcbb8c8',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '171bf4bbf0f759a940d4',
+      clientSecret: 'f975712e0a328ceec85cdd14dd20ce3dcf4dfcfc',
+      repo: 'iqhy.github.io',
+      owner: 'iqhy',
+      admin: ['iqhy'],
+      id: '13cd5d02924e208df7423da87c5f4e90',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>
