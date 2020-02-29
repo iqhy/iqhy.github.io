@@ -9,11 +9,13 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon_32px.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon_16px.png">
   <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
 
 <link rel="stylesheet" href="/css/main.css">
 
 
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
 
 
 <script id="hexo-configurations">
@@ -25,8 +27,8 @@
     version: '7.7.1',
     exturl: false,
     sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
-    copycode: {"enable":false,"show_result":false,"style":null},
-    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    copycode: {"enable":true,"show_result":true,"style":"flat"},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
     bookmark: {"enable":false,"color":"#222","save":"auto"},
     fancybox: false,
     mediumzoom: false,
@@ -40,16 +42,16 @@
       hits: {"per_page":10},
       labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
     },
-    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
-    path: '',
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
   };
 </script>
 
   <meta property="og:type" content="website">
-<meta property="og:title" content="Yu Hanqing&#39;s Blog">
+<meta property="og:title" content="iqhy&#39;s Blog">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;categories&#x2F;Python&#x2F;index.html">
-<meta property="og:site_name" content="Yu Hanqing&#39;s Blog">
+<meta property="og:site_name" content="iqhy&#39;s Blog">
 <meta property="og:locale" content="zh-CN">
 <meta name="twitter:card" content="summary">
 
@@ -65,7 +67,7 @@
   };
 </script>
 
-  <title>分类: Python | Yu Hanqing's Blog</title>
+  <title>分类: Python | iqhy's Blog</title>
   
 
 
@@ -109,7 +111,7 @@
     <div>
       <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Yu Hanqing's Blog</span>
+        <span class="site-title">iqhy's Blog</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -148,17 +150,38 @@
     <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
 
   </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
   </ul>
 
 </nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
 </div>
     </header>
 
     
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
 
 
     <main class="main">
@@ -175,14 +198,14 @@
   <div class="post-block">
     <div class="posts-collapse">
       <div class="collection-title">
-        <h1 class="collection-header">Python
+        <h2 class="collection-header">Python
           <small>分类</small>
-        </h1>
+        </h2>
       </div>
 
       
     <div class="collection-year">
-      <h1 class="collection-header">2020</h1>
+      <h2 class="collection-header">2020</h2>
     </div>
 
   <article itemscope itemtype="http://schema.org/Article">
@@ -196,11 +219,11 @@
         </time>
       </div>
 
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2020/202002281556/" itemprop="url">
+      <h3 class="post-title">
+          <a class="post-title-link" href="/posts/2020/02281556/" itemprop="url">
             <span itemprop="name">Python 调用 C++</span>
           </a>
-      </h2>
+      </h3>
 
     </header>
   </article>
@@ -268,9 +291,9 @@
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="Yu Hanqing"
+    <img class="site-author-image" itemprop="image" alt="iqhy"
       src="/images/avatar.png">
-  <p class="site-author-name" itemprop="name">Yu Hanqing</p>
+  <p class="site-author-name" itemprop="name">iqhy</p>
   <div class="site-description" itemprop="description"></div>
 </div>
 <div class="site-state-wrap motion-element">
@@ -295,10 +318,22 @@
       </div>
   </nav>
 </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/iqhy" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;iqhy" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:imyuhanqing@outlook.com" title="E-Mail → mailto:imyuhanqing@outlook.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
 
 
 
       </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
 
     </div>
   </aside>
@@ -319,7 +354,7 @@
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">Yu Hanqing</span>
+  <span class="author" itemprop="copyrightHolder">iqhy</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
@@ -361,6 +396,9 @@
 </div>
 
 
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=true&web_id=true"></script>
+  </div>
 
 
 
@@ -372,7 +410,7 @@
   </div>
 
   
-  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.1.0/lib/anime.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
 <script src="/js/utils.js"></script><script src="/js/motion.js"></script>
@@ -386,6 +424,7 @@
 
 
 
+  <script src="/js/local-search.js"></script>
 
 
 
@@ -397,7 +436,8 @@
 
 
 
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
 
 <script>
 NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {

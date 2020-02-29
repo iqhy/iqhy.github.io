@@ -9,11 +9,13 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon_32px.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon_16px.png">
   <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
 
 <link rel="stylesheet" href="/css/main.css">
 
 
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
 
 
 <script id="hexo-configurations">
@@ -25,8 +27,8 @@
     version: '7.7.1',
     exturl: false,
     sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
-    copycode: {"enable":false,"show_result":false,"style":null},
-    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    copycode: {"enable":true,"show_result":true,"style":"flat"},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
     bookmark: {"enable":false,"color":"#222","save":"auto"},
     fancybox: false,
     mediumzoom: false,
@@ -40,8 +42,8 @@
       hits: {"per_page":10},
       labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
     },
-    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
-    path: '',
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
   };
 </script>
@@ -50,17 +52,17 @@
 <meta name="keywords" content="mcts">
 <meta property="og:type" content="article">
 <meta property="og:title" content="蒙特卡洛树搜索 MCTS 入门">
-<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;1028154602&#x2F;index.html">
-<meta property="og:site_name" content="Yu Hanqing&#39;s Blog">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;posts&#x2F;2019&#x2F;1028154602&#x2F;index.html">
+<meta property="og:site_name" content="iqhy&#39;s Blog">
 <meta property="og:description" content="蒙特卡洛树搜索(Monte Carlo Tree Search) ，一种寻找最优决策的方法。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;1028154602&#x2F;节点.png">
-<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;1028154602&#x2F;搜索过程.gif">
-<meta property="og:updated_time" content="2020-02-28T15:24:24.756Z">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;posts&#x2F;2019&#x2F;1028154602&#x2F;节点.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;posts&#x2F;2019&#x2F;1028154602&#x2F;搜索过程.gif">
+<meta property="og:updated_time" content="2020-02-28T16:01:52.619Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;1028154602&#x2F;节点.png">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;posts&#x2F;2019&#x2F;1028154602&#x2F;节点.png">
 
-<link rel="canonical" href="http://yoursite.com/2019/1028154602/">
+<link rel="canonical" href="http://yoursite.com/posts/2019/1028154602/">
 
 
 <script id="page-configurations">
@@ -72,7 +74,7 @@
   };
 </script>
 
-  <title>蒙特卡洛树搜索 MCTS 入门 | Yu Hanqing's Blog</title>
+  <title>蒙特卡洛树搜索 MCTS 入门 | iqhy's Blog</title>
   
 
 
@@ -116,7 +118,7 @@
     <div>
       <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Yu Hanqing's Blog</span>
+        <span class="site-title">iqhy's Blog</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -155,17 +157,38 @@
     <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
 
   </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
   </ul>
 
 </nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
 </div>
     </header>
 
     
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
 
 
     <main class="main">
@@ -181,21 +204,21 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/1028154602/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/2019/1028154602/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Yu Hanqing">
+      <meta itemprop="name" content="iqhy">
       <meta itemprop="description" content="">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Yu Hanqing's Blog">
+      <meta itemprop="name" content="iqhy's Blog">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
+        <h2 class="post-title" itemprop="name headline">
           蒙特卡洛树搜索 MCTS 入门
-        </h1>
+        </h2>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -211,7 +234,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-02-28 23:24:24" itemprop="dateModified" datetime="2020-02-28T23:24:24+08:00">2020-02-28</time>
+                <time title="修改时间：2020-02-29 00:01:52" itemprop="dateModified" datetime="2020-02-29T00:01:52+08:00">2020-02-29</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -262,10 +285,7 @@
 
 <p>【内容简介】<strong>蒙特卡洛树搜索</strong>(Monte Carlo Tree Search) 是一种寻找最优决策的方法，在AlphaGo中被运用，其主要分为四步：<strong>选择</strong>(Selection)，<strong>拓展</strong>(Expansion)，<strong>模拟</strong>(Simulation)，<strong>反向传播</strong>(Backpropagation)。 本文以<strong>井字棋</strong>为例对这一方法进行介绍。</p>
 <h2 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h2><h3 id="节点"><a href="#节点" class="headerlink" title="节点"></a>节点</h3><p>在棋类问题中，MCTS 使用一个<strong>节点</strong>来表示一个<strong>游戏状态</strong>。若现在井字棋的棋盘上只有中间一个棋子，我们用一个节点表示这个游戏状态。那么，下一步棋有<strong>8种下法</strong>，所以对应的，刚才那个节点就有<strong>8个子节点</strong>(图中只画出了3个)，如下图所示。根据这个方法，这些子节点又有子节点，所有的井字棋游戏状态都可以被这样表示，于是它们就构成了一个树。蒙特卡洛树搜索就是要在这样一个树中搜索最可能获胜的游戏状态，即搜索最佳<strong>下棋策略</strong>。</p>
-  <div align="center">  
-<img src="/2019/1028154602/节点.png" alt="节点" width="250">
-
-</div>
+<img src="/posts/2019/1028154602/节点.png" alt="节点" style="zoom:33%;">
 
 <h3 id="节点的两个属性"><a href="#节点的两个属性" class="headerlink" title="节点的两个属性"></a>节点的两个属性</h3><p>在蒙特卡洛树搜索中，节点记作$v$，且每个节点都有如下属性。</p>
 <ol>
@@ -285,8 +305,7 @@
 <p>这就是<strong>上限置信区间算法 (Upper Confidence Bound )</strong>，简称UCT算法。</p>
 <h3 id="搜索过程展示"><a href="#搜索过程展示" class="headerlink" title="搜索过程展示"></a>搜索过程展示</h3><p>看完了这四个步骤，我们再来看一张动图帮助理解。图中节点内数字表示 $Q(v)/N(v)$</p>
  <div align="center">  
-
-<img src="/2019/1028154602/搜索过程.gif" alt="搜索过程" width="400">
+<img src="/posts/2019/1028154602/搜索过程.gif" alt="搜索过程" width="400">
 
 </div>
 
@@ -314,12 +333,12 @@
   <div id="qr" style="display: none;">
       
       <div style="display: inline-block;">
-        <img src="/images/wechatpay.jpg" alt="Yu Hanqing 微信支付">
+        <img src="/images/wechatpay.jpg" alt="iqhy 微信支付">
         <p>微信支付</p>
       </div>
       
       <div style="display: inline-block;">
-        <img src="/images/alipay.jpg" alt="Yu Hanqing 支付宝">
+        <img src="/images/alipay.jpg" alt="iqhy 支付宝">
         <p>支付宝</p>
       </div>
 
@@ -331,11 +350,11 @@
 <div>
 <ul class="post-copyright">
   <li class="post-copyright-author">
-    <strong>本文作者： </strong>Yu Hanqing
+    <strong>本文作者： </strong>iqhy
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://yoursite.com/2019/1028154602/" title="蒙特卡洛树搜索 MCTS 入门">http://yoursite.com/2019/1028154602/</a>
+    <a href="http://yoursite.com/posts/2019/1028154602/" title="蒙特卡洛树搜索 MCTS 入门">http://yoursite.com/posts/2019/1028154602/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -356,7 +375,7 @@
     <div class="post-nav">
       <div class="post-nav-item"></div>
       <div class="post-nav-item">
-    <a href="/2020/202002281556/" rel="next" title="Python 调用 C++">
+    <a href="/posts/2020/02281556/" rel="next" title="Python 调用 C++">
       Python 调用 C++ <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
@@ -425,9 +444,9 @@
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="Yu Hanqing"
+    <img class="site-author-image" itemprop="image" alt="iqhy"
       src="/images/avatar.png">
-  <p class="site-author-name" itemprop="name">Yu Hanqing</p>
+  <p class="site-author-name" itemprop="name">iqhy</p>
   <div class="site-description" itemprop="description"></div>
 </div>
 <div class="site-state-wrap motion-element">
@@ -452,10 +471,22 @@
       </div>
   </nav>
 </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/iqhy" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;iqhy" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:imyuhanqing@outlook.com" title="E-Mail → mailto:imyuhanqing@outlook.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
 
 
 
       </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
 
     </div>
   </aside>
@@ -476,7 +507,7 @@
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">Yu Hanqing</span>
+  <span class="author" itemprop="copyrightHolder">iqhy</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
@@ -518,6 +549,9 @@
 </div>
 
 
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=true&web_id=true"></script>
+  </div>
 
 
 
@@ -529,7 +563,7 @@
   </div>
 
   
-  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.1.0/lib/anime.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
 <script src="/js/utils.js"></script><script src="/js/motion.js"></script>
@@ -543,6 +577,7 @@
 
 
 
+  <script src="/js/local-search.js"></script>
 
 
 
@@ -554,7 +589,8 @@
 
 
 
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
 
 <script>
 NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
@@ -629,7 +665,7 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
 
   
 
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
 
 <script>
 NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
@@ -640,7 +676,7 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
       repo: 'iqhy.github.io',
       owner: 'iqhy',
       admin: ['iqhy'],
-      id: 'd325e044695f86443255ee067dc03825',
+      id: 'ffc47eba532f79d24222f719a6d5ab18',
         language: '',
       distractionFreeMode: true
     });
