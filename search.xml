@@ -20,13 +20,13 @@
       
         <tags>
             
+            <tag> keras </tag>
+            
             <tag> mcts </tag>
             
             <tag> python </tag>
             
             <tag> c++ </tag>
-            
-            <tag> keras </tag>
             
         </tags>
       
@@ -53,9 +53,9 @@
             
             <tag> C++ </tag>
             
-            <tag> keras </tag>
-            
             <tag> 机器学习 </tag>
+            
+            <tag> keras </tag>
             
         </tags>
       
