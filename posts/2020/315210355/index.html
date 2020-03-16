@@ -21,7 +21,7 @@
 <script id="hexo-configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
-    hostname: new URL('http://yoursite.com').hostname,
+    hostname: new URL('https://iqhy.github.io').hostname,
     root: '/',
     scheme: 'Pisces',
     version: '7.7.1',
@@ -52,16 +52,16 @@
 <meta name="keywords" content="Python,C++,mcts,Keras">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用 Python 和 C++ 并行 MCTS">
-<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;posts&#x2F;2020&#x2F;315210355&#x2F;index.html">
+<meta property="og:url" content="https:&#x2F;&#x2F;iqhy.github.io&#x2F;posts&#x2F;2020&#x2F;315210355&#x2F;index.html">
 <meta property="og:site_name" content="iqhy&#39;s Blog">
 <meta property="og:description" content="简单介绍在 Python 和 C++ 中蒙特卡洛树搜索 (MCTS) 的并行化方法。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;posts&#x2F;2020&#x2F;315210355&#x2F;1.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;iqhy.github.io&#x2F;posts&#x2F;2020&#x2F;315210355&#x2F;1.png">
 <meta property="og:updated_time" content="2020-03-15T15:47:02.573Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;posts&#x2F;2020&#x2F;315210355&#x2F;1.png">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;iqhy.github.io&#x2F;posts&#x2F;2020&#x2F;315210355&#x2F;1.png">
 
-<link rel="canonical" href="http://yoursite.com/posts/2020/315210355/">
+<link rel="canonical" href="https://iqhy.github.io/posts/2020/315210355/">
 
 
 <script id="page-configurations">
@@ -203,7 +203,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/2020/315210355/">
+    <link itemprop="mainEntityOfPage" href="https://iqhy.github.io/posts/2020/315210355/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -296,7 +296,7 @@
 
 <p>这样并行虽然简单，但缺点是程序占内存大，且显存容易不够用。</p>
 <h2 id="树并行"><a href="#树并行" class="headerlink" title="树并行"></a>树并行</h2><p>在 Python 中直接按照上述方法并行后，可能还是无法满足需求，需要更高效的并行方法。由于 GIL 的限制，在Python 中不能使用多线程来并行 MCTS，但实现树并行时需要进程/线程间较多的通信，如果直接在 Python 中用 multiprocessing 实现，可能带来较大的性能损失，同时实现起来也比较困难<sup>[2]</sup>。</p>
-<p>一种解决方法是用 C++ 实现树并行，再封装成 Python 接口，在 Python 中调用，这样就避开了 GIL 的限制。C++ 的树并行实现可以参考这个 <a href="https://github.com/hijkzzz/alpha-zero-gomoku" target="_blank" rel="noopener">Github 项目</a> 。这个项目使用的是 PyTorch，如果你使用的是 Keras，要在 C++ 中调用 Keras 可以参考这篇<a href="https://iqhy.github.io/posts/2020/0229161832/" target="_blank" rel="noopener">文章</a>。将 C++ 封装成 Python 接口可以参考这篇<a href="https://iqhy.github.io/posts/2020/0228155601/" target="_blank" rel="noopener">文章</a>。</p>
+<p>一种解决方法是用 C++ 实现树并行，再封装成 Python 接口，在 Python 中调用，这样就避开了 GIL 的限制。C++ 的树并行实现可以参考这个 <a href="https://github.com/hijkzzz/alpha-zero-gomoku" target="_blank" rel="noopener">Github 项目</a> 。这个项目使用的是 PyTorch，如果你使用的是 Keras，要在 C++ 中调用 Keras 可以参考这篇<a href="https://iqhy.github.io/posts/2020/0229161832/">文章</a>。将 C++ 封装成 Python 接口可以参考这篇<a href="https://iqhy.github.io/posts/2020/0228155601/">文章</a>。</p>
 <p>封装成 Python 接口后，由于避开了 GIL 的限制，可以直接通过多线程调用。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> concurrent.futures</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mcts_main</span><span class="params">(a, b)</span>:</span></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">    mcts搜索的主函数</span></span><br><span class="line"><span class="string">    输入参数：a, b</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line"><span class="comment"># 最大线程数10，50个待执行任务</span></span><br><span class="line"><span class="keyword">with</span> concurrent.futures.ThreadPoolExecutor(max_workers=<span class="number">10</span>) <span class="keyword">as</span> executor:</span><br><span class="line">            futures = [executor.submit(mcts_main, a, b) <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">50</span>)]</span><br><span class="line">            <span class="keyword">for</span> future <span class="keyword">in</span> concurrent.futures.as_completed(futures):</span><br><span class="line">                result = future.result()</span><br><span class="line">                ...</span><br></pre></td></tr></table></figure>
 
@@ -338,7 +338,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://yoursite.com/posts/2020/315210355/" title="使用 Python 和 C++ 并行 MCTS">http://yoursite.com/posts/2020/315210355/</a>
+    <a href="https://iqhy.github.io/posts/2020/315210355/" title="使用 Python 和 C++ 并行 MCTS">https://iqhy.github.io/posts/2020/315210355/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa%204.0/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA 4.0</a> 许可协议。转载请注明出处！
