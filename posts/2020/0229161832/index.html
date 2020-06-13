@@ -56,7 +56,7 @@
 <meta property="og:site_name" content="iqhy&#39;s Blog">
 <meta property="og:description" content="使用 frugally-deep 在 C++ 中轻松调用 Keras 模型">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-06-05T03:24:13.497Z">
+<meta property="og:updated_time" content="2020-06-13T02:01:18.432Z">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="https://iqhy.github.io/posts/2020/0229161832/">
@@ -231,7 +231,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-06-05 11:24:13" itemprop="dateModified" datetime="2020-06-05T11:24:13+08:00">2020-06-05</time>
+                <time title="修改时间：2020-06-13 10:01:18" itemprop="dateModified" datetime="2020-06-13T10:01:18+08:00">2020-06-13</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -310,13 +310,13 @@
 <li>custom layers (by passing custom factory functions to <code>load_model</code>)</li>
 </ul>
 <h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>frugally-deep 的安装很简单，可以使用官方安装教程 <a href="https://github.com/Dobiasd/frugally-deep/blob/master/INSTALL.md" target="_blank" rel="noopener">INSTALL.md</a> 上的命令安装，也可以直接下载源码。使用命令安装的方法在官方的教程中已经很详细了，所以这里采用直接下载源码的方式。</p>
-<p>使用 frugally-deep 前需要有</p>
+<p>使用 frugally-deep 前需要有 (截止2020年6月13日)</p>
 <ul>
 <li>一个支持 C++14 的编译器</li>
-<li>Python 版本在 3.5 或以上</li>
-<li>TensorFlow 2.0.0</li>
+<li>Python 版本在 3.7 或以上</li>
+<li>TensorFlow 2.1.1</li>
 </ul>
-<p>如果你正在使用 Tensorflow 1.x 的 Keras，安装 TensorFlow 2.0.0 后大多数情况下只需要把 <code>import keras</code> 修改为 <code>import tensorflow.keras</code> 即可，Keras 的改动并不大。</p>
+<p>如果你正在使用 Tensorflow 1.x 的 Keras，安装 TensorFlow 2.x.x 后大多数情况下只需要把 <code>import keras</code> 修改为 <code>import tensorflow.keras</code> 即可，Keras 的改动并不大。</p>
 <h3 id="下载源码"><a href="#下载源码" class="headerlink" title="下载源码"></a>下载源码</h3><p>分别前往<a href="https://github.com/Dobiasd/frugally-deep" target="_blank" rel="noopener">frugally-deep</a>, <a href="https://github.com/Dobiasd/FunctionalPlus" target="_blank" rel="noopener">FunctionalPlus</a> , <a href="http://eigen.tuxfamily.org/" target="_blank" rel="noopener">Eigen</a> 和 <a href="https://github.com/nlohmann/json" target="_blank" rel="noopener">json</a> 点击右侧的 Clone or download 再点击 Download ZIP 下载这些源码。</p>
 <h3 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h3><p>假设现在代码根目录下的源文件只有 <code>main.cpp</code>，文件结构为：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">+-- main.cpp</span><br></pre></td></tr></table></figure>
