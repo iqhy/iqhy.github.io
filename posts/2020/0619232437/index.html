@@ -59,7 +59,7 @@
 <meta property="og:image" content="https:&#x2F;&#x2F;iqhy.github.io&#x2F;posts&#x2F;2020&#x2F;0619232437&#x2F;天气马尔可夫链.jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;iqhy.github.io&#x2F;posts&#x2F;2020&#x2F;0619232437&#x2F;学生马尔可夫过程.png">
 <meta property="og:image" content="https:&#x2F;&#x2F;iqhy.github.io&#x2F;posts&#x2F;2020&#x2F;0619232437&#x2F;MRP.jpg">
-<meta property="og:updated_time" content="2020-06-19T15:25:17.901Z">
+<meta property="og:updated_time" content="2020-06-19T16:11:55.753Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;iqhy.github.io&#x2F;posts&#x2F;2020&#x2F;0619232437&#x2F;天气马尔可夫链.jpg">
 
@@ -227,10 +227,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-06-19 23:24:37 / 修改时间：23:25:17" itemprop="dateCreated datePublished" datetime="2020-06-19T23:24:37+08:00">2020-06-19</time>
+              <time title="创建时间：2020-06-19 23:24:37" itemprop="dateCreated datePublished" datetime="2020-06-19T23:24:37+08:00">2020-06-19</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-06-20 00:11:55" itemprop="dateModified" datetime="2020-06-20T00:11:55+08:00">2020-06-20</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -256,7 +262,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>3.5k</span>
+              <span>3.6k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -288,7 +294,7 @@
 <h2 id="马尔可夫过程-Markov-Processes"><a href="#马尔可夫过程-Markov-Processes" class="headerlink" title="马尔可夫过程 (Markov Processes)"></a>马尔可夫过程 (Markov Processes)</h2><h3 id="马尔可夫性质-Markov-Property"><a href="#马尔可夫性质-Markov-Property" class="headerlink" title="马尔可夫性质 (Markov Property)"></a>马尔可夫性质 (Markov Property)</h3><p>马尔可夫过程为什么叫这个名字呢，因为它具有马尔可夫性质。马尔可夫性质简而言之，就是<strong>未来发生的事情只与当前状态有关而与过去无关</strong>，是一个<strong>无记忆</strong>的过程，它要求状态包含可能对未来产生影响的所有信息。</p>
 <p>下面举一个例子，假设每天的天气有三种状态：晴天、阴天、下雨。我们将第 $i$ 天的状态记为 $s_i$ ，如果第 7 天下雨，那么<br>$$<br>s_7=下雨<br>$$<br>第 7 天下雨仅仅取决于第 6 天的状态，若第 6 天天晴，则第七天有0.2的概率下雨；若第 6 天阴天，则第七天有0.3 的概率下雨；若第 6 天阴天，则第七天有 0.5 的概率下雨；第 7 天下雨的概率只与第 6 天有关，而与前面 5 天的状态无关，这就是马尔可夫性质，用数学公式来描述就是<br>$$<br>\mathbb{P}\left[ S_{t+1}|S_t \right] =\mathbb{P}\left[ S_{t+1}|S_t,S_{t-1},…,S_1 \right]<br>$$</p>
 <h3 id="状态转移矩阵-State-Transition-Matrix"><a href="#状态转移矩阵-State-Transition-Matrix" class="headerlink" title="状态转移矩阵 (State Transition Matrix)"></a>状态转移矩阵 (State Transition Matrix)</h3><p>很容易可以看出来，由于只有三种天气，前后两天的天气组合共有 $3\times 3=9$ 种。将这9个概率按一定规则写进矩阵，就是状态转移矩阵。</p>
-<p>那这个规则是怎样的呢？若我们将天晴、阴天、下雨这三种状态编号为 1、2、3，则状态转移矩阵中的第 $i$ 行，第 $j$ 列的元素意义如下<br>$$<br>P_{ij}=\mathbb{P}\left[ S_{t+1}=\text{状态}i|S_t=\text{状态}j \right]<br>$$<br>换句话说，就是前一天天气为状态 $i$，后一天天气为状态 $j$ 的概率，按照这样的规则，整个状态转移矩阵 $P$ 为<br>$$<br>\begin{matrix}<br>    &amp;        \text{to}\<br>    P=\text{from}&amp;        \left[ \begin{matrix}<br>    P_{11}&amp;        P_{12}&amp;        P_{13}\<br>    P_{21}&amp;        P_{22}&amp;        P_{23}\<br>    P_{31}&amp;        P_{32}&amp;        P_{33}\<br>\end{matrix} \right]\<br>\end{matrix}<br>$$</p>
+<p>那这个规则是怎样的呢？若我们将天晴、阴天、下雨这三种状态编号为 1、2、3，则状态转移矩阵中的第 $i$ 行，第 $j$ 列的元素意义如下<br>$$<br>P_{ij}=\mathbb{P}\left[ S_{t+1}=\text{状态}i|S_t=\text{状态}j \right]<br>$$<br>换句话说，就是前一天天气为状态 $i$，后一天天气为状态 $j$ 的概率，按照这样的规则，整个状态转移矩阵 $P$ 为<br>$$<br>\begin{matrix}<br>    &amp;        \text{to}\newline<br>    P=\text{from}&amp;        \left[ \begin{matrix}<br>    P_{11}&amp;        P_{12}&amp;        P_{13}\newline<br>    P_{21}&amp;        P_{22}&amp;        P_{23}\newline<br>    P_{31}&amp;        P_{32}&amp;        P_{33}\newline<br>\end{matrix} \right]\<br>\end{matrix}<br>$$</p>
 <p>不难看出，状态转移矩阵 $P$ 每一行的和都为 1，因为概率之和必为 1。</p>
 <h3 id="马尔可夫过程的定义"><a href="#马尔可夫过程的定义" class="headerlink" title="马尔可夫过程的定义"></a>马尔可夫过程的定义</h3><p><strong>马尔可夫过程就是具有马尔可夫性的随机过程</strong>，上述天气的例子描述了一个满足马尔可夫性、随着时间的推移，天气不断随机变化的过程，这就是一个马尔可夫过程。一个马尔可夫过程可由 $&lt;S,P&gt;$ 两个参数完全确定，这两个参数确定了，整个模型就确定了。其中</p>
 <ul>
@@ -301,7 +307,7 @@
 <p>下面我们看一个稍微复杂一点的例子，这是一个描述学生学习的马尔可夫过程，在这个例子中，学生共有三节课要学习，在上课过程中，学生有一定概率走神，去刷 Facebook或睡觉，也有可能去酒吧，还有可能坚持把三堂课学完，最终通过考试，按照同样的方法画成图，如下图所示。</p>
 <img src="/posts/2020/0619232437/学生马尔可夫过程.png" alt="学生马尔可夫过程" style="zoom: 40%;">
 
-<p>将其状态转移概率写成状态转移矩阵，如该公式所示，可以看到，该矩阵的每行之和都是1。<br>$$<br>P=\begin{matrix}<br>    &amp;        \begin{matrix}<br>    \text{C}1&amp;        \text{C}2&amp;        \text{C}3&amp;        \text{Pass}&amp;        \text{Pub}&amp;        \text{FB}&amp;        \text{Sleep}\<br>\end{matrix}\<br>    \begin{array}{l}<br>    \text{C}1\<br>    \text{C}2\<br>    \text{C}3\<br>    \text{Pass}\<br>    \text{Pub}\<br>    \text{FB}\<br>    \text{Sleep}\<br>\end{array}&amp;        \left[ \begin{matrix}<br>    ,,\quad  &amp;        0.5&amp;        ,,\quad   &amp;        ,,\quad  &amp;        ,,\quad   &amp;        0.5&amp;        ,,\quad   \<br>    ,,&amp;        ,,&amp;        0.8&amp;        ,,&amp;        ,,&amp;        ,,\qquad&amp;        0.2\<br>    ,,&amp;        ,,&amp;        ,,&amp;        0.6&amp;        0.4&amp;        ,,&amp;        ,,\<br>    ,,&amp;        ,,&amp;        ,,&amp;        ,,&amp;        ,,&amp;        ,,&amp;        1.0\<br>    0.2&amp;        0.4&amp;        0.4&amp;        ,,&amp;        ,,&amp;        ,,&amp;        ,,\<br>    0.1&amp;        ,,&amp;        ,,&amp;        ,,&amp;        ,,&amp;        0.9&amp;        ,,\<br>    ,,&amp;        ,,&amp;        ,,&amp;        ,,&amp;        ,,&amp;        ,,&amp;        1.0\<br>\end{matrix} \right]\<br>\end{matrix}<br>$$<br>与刚才天气的例子不同，这个马尔可夫过程有一个终止状态，一旦进入这个状态，整个过程就结束了，这个状态通常可能是游戏结束的状态。为了与其他普通状态一起表示，这个终止状态可以视为以概率 1 转移到自身，这样做的目的是方便处理。</p>
+<p>将其状态转移概率写成状态转移矩阵，如该公式所示，可以看到，该矩阵的每行之和都是1。<br>$$<br>P=\begin{matrix}<br>    &amp;        \begin{matrix}<br>    \text{C}1&amp;        \text{C}2&amp;        \text{C}3&amp;        \text{Pass}&amp;        \text{Pub}&amp;        \text{FB}&amp;        \text{Sleep}\newline<br>\end{matrix}\newline<br>    \begin{array}{l}<br>    \text{C}1\newline<br>    \text{C}2\newline<br>    \text{C}3\newline<br>    \text{Pass}\newline<br>    \text{Pub}\newline<br>    \text{FB}\newline<br>    \text{Sleep}\newline<br>\end{array}&amp;        \left[ \begin{matrix}<br>    \ \ \quad  &amp;        0.5&amp;        \ \ \quad   &amp;        \ \ \quad  &amp;        \ \ \quad   &amp;        0.5&amp;        \ \ \quad   \newline<br>    \ \ &amp;        \ \ &amp;        0.8&amp;        \ \ &amp;        \ \ &amp;        \ \ \qquad&amp;        0.2\newline<br>    \ \ &amp;        \ \ &amp;        \ \ &amp;        0.6&amp;        0.4&amp;        \ \ &amp;        \ \ \newline<br>    \ \ &amp;        \ \ &amp;        \ \ &amp;        \ \ &amp;        \ \ &amp;        \ \ &amp;        1.0\newline<br>    0.2&amp;        0.4&amp;        0.4&amp;        \ \ &amp;        \ \ &amp;        \ \ &amp;        \ \ \newline<br>    0.1&amp;        \ \ &amp;        \ \ &amp;        \ \ &amp;        \ \ &amp;        0.9&amp;        \ \ \newline<br>    \ \ &amp;        \ \ &amp;        \ \ &amp;        \ \ &amp;        \ \ &amp;        \ \ &amp;        1.0\newline<br>\end{matrix} \right]\<br>\end{matrix}<br>$$<br>与刚才天气的例子不同，这个马尔可夫过程有一个终止状态，一旦进入这个状态，整个过程就结束了，这个状态通常可能是游戏结束的状态。为了与其他普通状态一起表示，这个终止状态可以视为以概率 1 转移到自身，这样做的目的是方便处理。</p>
 <h2 id="马尔可夫奖励过程"><a href="#马尔可夫奖励过程" class="headerlink" title="马尔可夫奖励过程"></a>马尔可夫奖励过程</h2><p><strong>马尔可夫过程加上奖励就是马尔可夫奖励过程</strong>，为什么需要有奖励呢？</p>
 <p>我们对环境进行 MDP 建模的目的是为了让机器能够在环境中学习出好的策略，机器怎么学习呢，光有转移概率是不够的，靠的是奖励。奖励可正也可负，若当前状态对我们有利，就给正奖励；若当前状态对我们不利，就给负奖励。</p>
 <h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>马尔可夫奖励过程是带奖励的马尔可夫过程，一个马尔可夫过程可由 $&lt;S,P,R,\gamma&gt;$ 四个参数完全确定。</p>
