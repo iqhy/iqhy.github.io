@@ -4,7 +4,7 @@
   
     
     <entry>
-      <title>马尔科夫决策 MDP 基本概念 (一)</title>
+      <title>马尔可夫决策 MDP 基本概念 (一)</title>
       <link href="/posts/2020/0619232437/"/>
       <url>/posts/2020/0619232437/</url>
       
@@ -49,9 +49,9 @@
             
             <tag> C++ </tag>
             
-            <tag> mcts </tag>
-            
             <tag> Python </tag>
+            
+            <tag> mcts </tag>
             
             <tag> Keras </tag>
             

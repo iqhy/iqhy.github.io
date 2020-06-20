@@ -17,7 +17,7 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>马尔科夫决策 MDP 基本概念 (一)</title>
+    <title>马尔可夫决策 MDP 基本概念 (一)</title>
     <link href="https://iqhy.github.io/posts/2020/0619232437/"/>
     <id>https://iqhy.github.io/posts/2020/0619232437/</id>
     <published>2020-06-19T15:24:37.000Z</published>
@@ -62,9 +62,9 @@
     
       <category term="C++" scheme="https://iqhy.github.io/tags/C/"/>
     
-      <category term="mcts" scheme="https://iqhy.github.io/tags/mcts/"/>
-    
       <category term="Python" scheme="https://iqhy.github.io/tags/Python/"/>
+    
+      <category term="mcts" scheme="https://iqhy.github.io/tags/mcts/"/>
     
       <category term="Keras" scheme="https://iqhy.github.io/tags/Keras/"/>
     
