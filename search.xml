@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>一个 Python 整数溢出的坑</title>
+      <link href="/posts/2020/120390311/"/>
+      <url>/posts/2020/120390311/</url>
+      
+        <content type="html"><![CDATA[<p>众所周知，Python 的整数是不会溢出的，例如运行如下代码，Python 可以完整地计算出 $2^{100}$</p><a id="more"></a><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="number">2</span> ** <span class="number">200</span>)</span><br><span class="line"><span class="comment"># 1606938044258990275541962092341162602522202993782792835301376</span></span><br></pre></td></tr></table></figure><p>但是，在执行以下代码时，发现整数却溢出了</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">result = <span class="number">0</span></span><br><span class="line">array = np.array([<span class="number">145</span>, <span class="number">124</span>, <span class="number">58</span>])</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> array:</span><br><span class="line">    result += i</span><br><span class="line">    result = result &lt;&lt; <span class="number">8</span></span><br><span class="line"></span><br><span class="line">print(result)</span><br><span class="line"><span class="comment"># -1854129664</span></span><br></pre></td></tr></table></figure><p>这是为什么呢？Python 的整数怎么会溢出呢？我们输出中间的计算过程</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">result = <span class="number">0</span></span><br><span class="line">array = np.array([<span class="number">145</span>, <span class="number">124</span>, <span class="number">58</span>])</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> array:</span><br><span class="line">    result += i</span><br><span class="line">    print(result)</span><br><span class="line">    result = result &lt;&lt; <span class="number">8</span></span><br><span class="line">    print(result, <span class="string">'\n'</span>)</span><br><span class="line">    </span><br><span class="line"><span class="comment"># 输出结果:</span></span><br><span class="line"><span class="comment"># 145</span></span><br><span class="line"><span class="comment"># 37120 </span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="comment"># 37244</span></span><br><span class="line"><span class="comment"># 9534464 </span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="comment"># 9534522</span></span><br><span class="line"><span class="comment"># -1854129664</span></span><br></pre></td></tr></table></figure><p>看来是在最后一步溢出的，难道是 Python 算错了吗？单独计算</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print(9534522 &lt;&lt; 8)</span><br><span class="line"># 2440837632</span><br></pre></td></tr></table></figure><p>可以看到，单独计算 <code>9534522 &lt;&lt; 8</code> 的结果确是正确的。进一步调试，发现 <code>result</code> 的类型竟然是 <code>int32</code> 而不是 <code>int</code></p><img src="/posts/2020/120390311/fig2.jpg" alt="fig2" style="zoom:67%;"><p>原来是因为 <code>array</code> 中的数据类型是 <code>np.int32</code> ，因此变量 <code>i</code> 的类型也是 <code>np.int32</code> ，在执行 <code>result += i</code> 后，<code>int</code> 类型与 <code>np.int32</code> 类型相加后结果被转成了 <code>np.int32</code> 这才出现了整数溢出。因此，只需将 <code>i</code> 的类型转为 <code>int</code> 就不会发生溢出了。修改前面的代码</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">result = <span class="number">0</span></span><br><span class="line">array = np.array([<span class="number">145</span>, <span class="number">124</span>, <span class="number">58</span>])</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> array:</span><br><span class="line">    result += int(i)    <span class="comment"># 将 np.int32 转为 int</span></span><br><span class="line">    result = result &lt;&lt; <span class="number">8</span></span><br><span class="line"></span><br><span class="line">print(result)</span><br><span class="line"><span class="comment"># 2440837632 没有出现溢出</span></span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> bug </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Python </tag>
+            
+            <tag> bug </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>马尔可夫决策 MDP 基本概念 (一)</title>
       <link href="/posts/2020/0619232437/"/>
       <url>/posts/2020/0619232437/</url>
