@@ -66,7 +66,7 @@
 <meta property="og:image" content="https:&#x2F;&#x2F;iqhy.github.io&#x2F;posts&#x2F;2021&#x2F;0321092659&#x2F;setting5.png">
 <meta property="og:image" content="https:&#x2F;&#x2F;iqhy.github.io&#x2F;posts&#x2F;2021&#x2F;0321092659&#x2F;ui.png">
 <meta property="og:image" content="https:&#x2F;&#x2F;iqhy.github.io&#x2F;posts&#x2F;2021&#x2F;0321092659&#x2F;setting8.png">
-<meta property="og:updated_time" content="2021-03-21T03:13:12.932Z">
+<meta property="og:updated_time" content="2021-03-21T03:30:06.009Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;iqhy.github.io&#x2F;posts&#x2F;2021&#x2F;0321092659&#x2F;docker_search.png">
 
@@ -236,7 +236,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-03-21 09:26:59 / 修改时间：11:13:12" itemprop="dateCreated datePublished" datetime="2021-03-21T09:26:59+08:00">2021-03-21</time>
+              <time title="创建时间：2021-03-21 09:26:59 / 修改时间：11:30:06" itemprop="dateCreated datePublished" datetime="2021-03-21T09:26:59+08:00">2021-03-21</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -263,7 +263,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.1k</span>
+              <span>1.2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -299,7 +299,8 @@
 <ol>
 <li><p><strong>高级设置</strong>页面</p>
 <p>按需勾选<strong>启动自动重新启动</strong>（将会开机启动）</p>
-<p>勾选<strong>创建桌面快捷方式</strong>，选择<strong>网页</strong>，框内填入 <code>http://192.168.1.111:8888</code></p>
+<p>查看群晖的 IP 地址，例如我的是 <code>192.168.1.111</code></p>
+<p>勾选<strong>创建桌面快捷方式</strong>，选择<strong>网页</strong>，框内填入 <code>http://192.168.1.111:8888</code>（注意换成自己的 IP，:8888保留）</p>
 </li>
 </ol>
 <img src="/posts/2021/0321092659/setting2.png" alt="setting2" width="400">
@@ -328,9 +329,9 @@
 <li><p>打开<strong>终端机和 SNMP</strong>，勾选启用 SSH 功能，端口填 22，点击应用。</p>
 <img src="/posts/2021/0321092659/setting6.png" alt="setting6" width="500">
 </li>
-<li><p>查看群晖的 ip 地址，例如我的是 <code>192.168.1.111</code>，和你的用户名（在控制面板 &gt; 用户账号中可以看到）。</p>
+<li><p>查看你的用户名（在控制面板 &gt; 用户账号中可以看到）。</p>
 </li>
-<li><p>打开 cmd，输入 <code>ssh 用户名@192.168.1.111 -p 22</code> 注意换成自己的 ip，按提示输入密码。</p>
+<li><p>打开 cmd，输入 <code>ssh 用户名@192.168.1.111 -p 22</code> 注意换成自己的 IP，按提示输入密码。</p>
 </li>
 <li><p>输入 id 用户名，回车。例如我的用户名是 <code>admin</code>，输入 <code>id admin</code>。记住 <code>uid</code> 和 <code>gid</code> 后面的数字。</p>
 <img src="/posts/2021/0321092659/setting7.png" alt="setting7" width="300">
@@ -345,7 +346,7 @@
 <li><p><strong>点击应用、下一步，运行该容器</strong>。</p>
 </li>
 </ol>
-<h2 id="打开-qibtorrentee"><a href="#打开-qibtorrentee" class="headerlink" title="打开 qibtorrentee"></a>打开 qibtorrentee</h2><p>现在桌面上应该出现了一个 qibtorrentee 的图标，打开它。你也可以在浏览器中访问 ip 地址:8888 直接打开。</p>
+<h2 id="打开-qibtorrentee"><a href="#打开-qibtorrentee" class="headerlink" title="打开 qibtorrentee"></a>打开 qibtorrentee</h2><p>现在桌面上应该出现了一个 qibtorrentee 的图标，打开它。你也可以在浏览器中访问 查看群晖的 IP 地址，例如我的是 <code>192.168.1.111</code>，和 地址:8888 直接打开。</p>
 <p>默认的用户名为 <code>admin</code>，密码为 <code>adminadmin</code>，输入后就可以看到熟悉的界面了。</p>
 <img src="/posts/2021/0321092659/ui.png" alt="ui" width="600">
 
