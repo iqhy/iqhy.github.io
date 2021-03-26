@@ -5,13 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 <meta name="generator" content="Hexo 4.0.0">
-<meta name="google-site-verification" content="H9vHM6SJtZxoBDM8QpSdv18t8I9bi4GN0HW3d-zDby8" />
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon_32px.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon_16px.png">
   <link rel="mask-icon" href="/images/logo.svg" color="#222">
   <meta http-equiv="Cache-Control" content="no-transform">
   <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="google-site-verification" content="H9vHM6SJtZxoBDM8QpSdv18t8I9bi4GN0HW3d-zDby8">
 
 <link rel="stylesheet" href="/css/main.css">
 
@@ -59,7 +59,7 @@
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https:&#x2F;&#x2F;iqhy.github.io&#x2F;posts&#x2F;2019&#x2F;1028154602&#x2F;节点.png">
 <meta property="og:image" content="https:&#x2F;&#x2F;iqhy.github.io&#x2F;posts&#x2F;2019&#x2F;1028154602&#x2F;搜索过程.gif">
-<meta property="og:updated_time" content="2021-03-24T10:59:19.342Z">
+<meta property="og:updated_time" content="2021-03-26T07:26:26.606Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;iqhy.github.io&#x2F;posts&#x2F;2019&#x2F;1028154602&#x2F;节点.png">
 
@@ -235,7 +235,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-24 18:59:19" itemprop="dateModified" datetime="2021-03-24T18:59:19+08:00">2021-03-24</time>
+                <time title="修改时间：2021-03-26 15:26:26" itemprop="dateModified" datetime="2021-03-26T15:26:26+08:00">2021-03-26</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -307,8 +307,8 @@
 <h3 id="扩展-Expansion"><a href="#扩展-Expansion" class="headerlink" title="扩展 (Expansion)"></a>扩展 (Expansion)</h3><p>MCTS 在搜索的过程中是有选择地访问节点，并把所有访问过的节点构建成一个树。扩展就是把<strong>选择</strong>步骤中遇到的未访问节点添加到树中，然后对该节点执行模拟。</p>
 <h3 id="模拟-Simulation"><a href="#模拟-Simulation" class="headerlink" title="模拟 (Simulation)"></a>模拟 (Simulation)</h3><p>模拟是一个粗略获取信息的过程。从被扩展的节点开始，对游戏进行模拟，也就是在棋盘上随机下棋，直到<strong>游戏结束</strong>。若此时游戏胜利，则<strong>奖励 (Reward)</strong> 记为 $1$；若游戏失败，<strong>奖励</strong>记为 $0$。</p>
 <p>注：在其他应用中，<strong>奖励</strong>也可是其他值。</p>
-<h3 id="反向传播-Backpropagation"><a href="#反向传播-Backpropagation" class="headerlink" title="反向传播 (Backpropagation)"></a>反向传播 (Backpropagation)</h3><p>反向传播是将在<strong>模拟</strong>中得到的奖励更新的过程。为什么叫反向传播呢？回顾一下第一步<strong>选择</strong>，我们从跟节点向下一步一步地选择节点进行访问，现在我们将沿着这条路逐一更新节点信息，重新回到根节点，所以叫反向传播。</p>
-<p>将获得的奖励记作 $R$，对当前节点，及其路径上的所有节点 $v$，都执行以下操作。<strong>即，更新访问次数，对奖励进行累加。</strong><br>$$<br>N(v)=N(v)+1  \\<br>Q(v)=Q(v)+R<br>$$<br>我们再回头看看<strong>选择</strong>步骤中的公式<br>$$<br>\underset{v’\in ,,\text{children of }v}{arg\max}\frac{Q\left( v’ \right)}{N\left( v’ \right)}+c\sqrt{\frac{\text{2}\ln N\left( v \right)}{N\left( v’ \right)}}<br>$$<br>可以看到，式中第一项其实就是该节点在前面的过程中获得的平均奖励，自然第一项的值越大，在现有的知识下，选择该节点更有可能获胜。式中第二项，当该节点访问次数占父节点次数的比例越小时，该值越大，表示该节点访问次数很少，可以多进行尝试，获取新的知识，它们也可能获得更丰厚的回报。于是 $c$ 就是控制这两者重要程度的参数。</p>
+<h3 id="反向传播-Backpropagation"><a href="#反向传播-Backpropagation" class="headerlink" title="反向传播 (Backpropagation)"></a>反向传播 (Backpropagation)</h3><p>反向传播是将在<strong>模拟</strong>中得到的奖励更新的过程。为什么叫反向传播呢？回顾一下第一步<strong>选择</strong>，我们从根节点向下一步一步地选择节点进行访问，现在我们将沿着这条路逐一更新节点信息，重新回到根节点，所以叫反向传播。</p>
+<p>将获得的奖励记作 $R$，对当前节点，及其路径上的所有节点 $v$，都执行以下操作。<strong>即，更新访问次数，对奖励进行累加。</strong><br>$$<br>N(v)=N(v)+1  \\<br>Q(v)=Q(v)+R<br>$$<br>我们再回头看看<strong>选择</strong>步骤中的公式<br>$$<br>\underset{v’\in \text{children of }v}{\mathrm{argmax}}\frac{Q\left( v’ \right)}{N\left( v’ \right)}+c\sqrt{\frac{\text{2}\ln N\left( v \right)}{N\left( v’ \right)}}<br>$$<br>可以看到，式中第一项其实就是该节点在前面的过程中获得的平均奖励，自然第一项的值越大，在现有的知识下，选择该节点更有可能获胜。式中第二项，当该节点访问次数占父节点次数的比例越小时，该值越大，表示该节点访问次数很少，可以多进行尝试，获取新的知识，它们也可能获得更丰厚的回报。于是 $c$ 就是控制这两者重要程度的参数。</p>
 <p>这就是<strong>上限置信区间算法 (Upper Confidence Bound )</strong>。</p>
 <h3 id="搜索过程展示"><a href="#搜索过程展示" class="headerlink" title="搜索过程展示"></a>搜索过程展示</h3><p>下面我们看一张动图以帮助理解，图中节点内数字表示 $Q(v)/N(v)$，加粗的线条表示正在访问的路径，折线表示模拟。</p>
  <div align="center">  

@@ -4,92 +4,215 @@
   <url>
     <loc>https://iqhy.github.io/posts/2019/1028154602/</loc>
     
-    <lastmod>2021-03-24T10:59:19.342Z</lastmod>
+    <lastmod>2021-03-26</lastmod>
     
   </url>
   
   <url>
     <loc>https://iqhy.github.io/posts/2021/0321131258/</loc>
     
-    <lastmod>2021-03-24T09:14:00.649Z</lastmod>
+    <lastmod>2021-03-24</lastmod>
     
   </url>
   
   <url>
     <loc>https://iqhy.github.io/posts/2021/0321092659/</loc>
     
-    <lastmod>2021-03-21T03:30:06.009Z</lastmod>
+    <lastmod>2021-03-21</lastmod>
     
   </url>
   
   <url>
     <loc>https://iqhy.github.io/posts/2020/1008154826/</loc>
     
-    <lastmod>2020-10-08T12:54:03.200Z</lastmod>
+    <lastmod>2020-10-08</lastmod>
     
   </url>
   
   <url>
     <loc>https://iqhy.github.io/posts/2020/0619232437/</loc>
     
-    <lastmod>2020-10-08T12:09:50.976Z</lastmod>
+    <lastmod>2020-10-08</lastmod>
     
   </url>
   
   <url>
     <loc>https://iqhy.github.io/posts/2020/0229161832/</loc>
     
-    <lastmod>2020-10-06T01:51:10.343Z</lastmod>
+    <lastmod>2020-10-06</lastmod>
     
   </url>
   
   <url>
     <loc>https://iqhy.github.io/posts/2020/0228155601/</loc>
     
-    <lastmod>2020-07-18T02:32:21.432Z</lastmod>
+    <lastmod>2020-07-18</lastmod>
     
   </url>
   
   <url>
     <loc>https://iqhy.github.io/about/index.html</loc>
     
-    <lastmod>2020-07-17T08:53:19.188Z</lastmod>
+    <lastmod>2020-07-17</lastmod>
     
   </url>
   
   <url>
     <loc>https://iqhy.github.io/posts/2020/120390311/</loc>
     
-    <lastmod>2020-07-13T12:23:03.821Z</lastmod>
+    <lastmod>2020-07-13</lastmod>
     
   </url>
   
   <url>
     <loc>https://iqhy.github.io/posts/2020/315210355/</loc>
     
-    <lastmod>2020-03-15T15:47:02.573Z</lastmod>
+    <lastmod>2020-03-15</lastmod>
     
   </url>
   
   <url>
     <loc>https://iqhy.github.io/tags/index.html</loc>
     
-    <lastmod>2020-02-28T06:05:20.339Z</lastmod>
+    <lastmod>2020-02-28</lastmod>
     
   </url>
   
   <url>
     <loc>https://iqhy.github.io/categories/index.html</loc>
     
-    <lastmod>2020-02-28T06:04:21.234Z</lastmod>
+    <lastmod>2020-02-28</lastmod>
     
   </url>
   
   <url>
     <loc>https://iqhy.github.io/404.html</loc>
     
-    <lastmod>2019-10-28T08:11:52.236Z</lastmod>
+    <lastmod>2019-10-28</lastmod>
     
+  </url>
+  
+
+  <url>
+    <loc>https://iqhy.github.io/</loc>
+    <lastmod>2021-03-26</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  
+  <url>
+    <loc>https://iqhy.github.io/tags/Python/</loc>
+    <lastmod>2021-03-26</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://iqhy.github.io/tags/bug/</loc>
+    <lastmod>2021-03-26</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://iqhy.github.io/tags/C/</loc>
+    <lastmod>2021-03-26</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://iqhy.github.io/tags/mcts/</loc>
+    <lastmod>2021-03-26</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://iqhy.github.io/tags/Keras/</loc>
+    <lastmod>2021-03-26</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://iqhy.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/</loc>
+    <lastmod>2021-03-26</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://iqhy.github.io/tags/keras/</loc>
+    <lastmod>2021-03-26</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://iqhy.github.io/tags/%E7%BE%A4%E6%99%96/</loc>
+    <lastmod>2021-03-26</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://iqhy.github.io/tags/MDP/</loc>
+    <lastmod>2021-03-26</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://iqhy.github.io/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/</loc>
+    <lastmod>2021-03-26</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+
+  
+  <url>
+    <loc>https://iqhy.github.io/categories/bug/</loc>
+    <lastmod>2021-03-26</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://iqhy.github.io/categories/Python/</loc>
+    <lastmod>2021-03-26</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://iqhy.github.io/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/</loc>
+    <lastmod>2021-03-26</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://iqhy.github.io/categories/C/</loc>
+    <lastmod>2021-03-26</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://iqhy.github.io/categories/%E7%BE%A4%E6%99%96/</loc>
+    <lastmod>2021-03-26</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://iqhy.github.io/categories/MDP/</loc>
+    <lastmod>2021-03-26</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
   </url>
   
 </urlset>
